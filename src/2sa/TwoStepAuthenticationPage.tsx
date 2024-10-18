@@ -12,7 +12,7 @@ interface tracklistlist {
     [date: string]: track[] | string
 }
 
-const dates = ['090624', '091324', '092024', '092724', '100424'];
+const dates = ['090624', '091324', '092024', '092724', '100424', '101824'];
 
 
 function TwoStepAuthentication() {
