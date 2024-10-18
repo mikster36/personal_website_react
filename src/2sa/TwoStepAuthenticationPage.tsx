@@ -90,7 +90,7 @@ function TwoStepAuthentication() {
                                         </p>
                                     </div>
 
-                                    <ShowEntry direction={'left'} date={'October 18, 2024'}
+                                    <ShowEntry direction={'right'} date={'October 18, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
                                                tracklist={tracklists['101824']}/>
                                     <ShowEntry direction={'left'} date={'October 4, 2024'}
