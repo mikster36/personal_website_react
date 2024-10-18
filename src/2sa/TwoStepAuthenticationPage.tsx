@@ -90,6 +90,9 @@ function TwoStepAuthentication() {
                                         </p>
                                     </div>
 
+                                    <ShowEntry direction={'left'} date={'October 18, 2024'}
+                                               audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
+                                               tracklist={tracklists['101824']}/>
                                     <ShowEntry direction={'left'} date={'October 4, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa100424.mp3'}
                                                tracklist={tracklists['100424']}/>
@@ -111,10 +114,7 @@ function TwoStepAuthentication() {
                                     <br/>
                                 </div>
                                 <div className="row">
-                                    <div className="col text-center">
-                                        <img src={'/2sa/media/2sa_ipod.png'} className="img-fluid" alt="ipod"/>
-                                    </div>
-                                    <div className="col d-flex align-items-center">
+                                    <div className="col-md-6 d-flex align-items-center">
                                         <div className="font-monospace text-adapt-width">
                                             <em><strong>what is two step authentication?</strong></em>
                                             <br/>
@@ -136,6 +136,9 @@ function TwoStepAuthentication() {
                                                 occasional sloppy transition (whoops!)
                                             </p>
                                         </div>
+                                    </div>
+                                    <div className="col-md-6 text-center">
+                                        <img src={'/2sa/media/2sa_ipod.png'} className="img-fluid" alt="ipod"/>
                                     </div>
                                 </div>
                             </div>

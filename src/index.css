@@ -80,10 +80,6 @@
   font-size: 105%;
 }
 
-.text-adapt-width {
-  font-size: 1.2vw;
-}
-
 #bio {
   font-size: 105%;
 }
@@ -106,6 +102,7 @@
   width: 100%;
   overflow: auto;
   padding-right: 20px;
+  padding-left: 20px;
 }
 
 #no-scroll-parent {
@@ -115,3 +112,15 @@
   ::-webkit-scrollbar {display:none;}
 }
 
+@media (max-width: 900px) {
+  #text-adapt-width {
+    font-size: 4px;
+  }
+}
+
+/* Resize text at 100px breakpoint */
+@media (max-width: 600px) {
+  #text-adapt-width {
+    font-size: 2px;
+  }
+}
