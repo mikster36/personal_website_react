@@ -12,7 +12,7 @@ interface tracklistlist {
     [date: string]: track[] | string
 }
 
-const dates = ['090624', '091324', '092024', '092724', '100424', '101824'];
+const dates = ['090624', '091324', '092024', '092724', '100424', '101824', '102524'];
 
 
 function TwoStepAuthentication() {
@@ -90,6 +90,9 @@ function TwoStepAuthentication() {
                                         </p>
                                     </div>
 
+                                    <ShowEntry direction={'left'} date={'October 25, 2024'}
+                                               audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa102524.mp3'}
+                                               tracklist={tracklists['102524']}/>
                                     <ShowEntry direction={'right'} date={'October 18, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
                                                tracklist={tracklists['101824']}/>
