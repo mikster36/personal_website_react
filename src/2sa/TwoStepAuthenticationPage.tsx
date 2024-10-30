@@ -26,7 +26,7 @@ function TwoStepAuthentication() {
             try {
                 const allTracklists = await Promise.all(
                     dates.map(async (date) => {
-                        const response = await fetch(`2sa/tracklists/${date}.json`);
+                        const response = await fetch(`https://2saarchive.s3.amazonaws.com/tracklist/${date}.json`);
                         if (response.ok) {
                             const result = await response.json() as track[];
                             return { [date]: result };
@@ -92,25 +92,39 @@ function TwoStepAuthentication() {
 
                                     <ShowEntry direction={'left'} date={'October 25, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa102524.mp3'}
-                                               tracklist={tracklists['102524']}/>
+                                               tracklist={tracklists['102524']}
+                                               tags={'#speed-garage #latin-club #jersey-club #footwork #donk'}
+                                    />
                                     <ShowEntry direction={'right'} date={'October 18, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
-                                               tracklist={tracklists['101824']}/>
+                                               tracklist={tracklists['101824']}
+                                               tags={'#speed-garage #jersey-club #house #breaks'}
+                                    />
                                     <ShowEntry direction={'left'} date={'October 4, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa100424.mp3'}
-                                               tracklist={tracklists['100424']}/>
+                                               tracklist={tracklists['100424']}
+                                               tags={'#jersey-club #baile-funk #speed-garage'}
+                                    />
                                     <ShowEntry direction={'right'} date={'September 27, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092724.mp3'}
-                                               tracklist={tracklists['092724']}/>
+                                               tracklist={tracklists['092724']}
+                                               tags={'#speed-garage #jersey-club #jungle #breakcore'}
+                                    />
                                     <ShowEntry direction={'left'} date={'September 20, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092024.mp3'}
-                                               tracklist={tracklists['092024']}/>
+                                               tracklist={tracklists['092024']}
+                                               tags={'#garage #speed-garage'}
+                                    />
                                     <ShowEntry direction={'right'} date={'September 13, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa091324.mp3'}
-                                               tracklist={tracklists['091324']}/>
+                                               tracklist={tracklists['091324']}
+                                               tags={'#speed-garage #club #jersey-club #hyperflip'}
+                                    />
                                     <ShowEntry direction={'left'} date={'September 6, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa090624.mp3'}
-                                               tracklist={tracklists['090624']}/>
+                                               tracklist={tracklists['090624']}
+                                               tags={'#garage #house #jersey-club #baile-funk'}
+                                    />
 
                                     <br/>
                                     <br/>

@@ -9,6 +9,7 @@ interface ShowEntryProps {
     date: string;
     audioSrc: string;
     tracklist: track[] | string;
+    tags?: string;
 }
 
 const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', date: string}) => {
@@ -31,8 +32,9 @@ function ShowEntry(props: ShowEntryProps) {
     return (
         <div className="row mt-3 font-monospace">
             <MemoizedMarquee direction={props.direction} date={props.date} />
-            <ReactAudioPlayer src={props.audioSrc} controls style={{boxShadow: 'none', outline: 'none', backgroundColor: '#f1f3f4', width: '100%', borderWidth: 2, borderColor: '#e29ef9', borderStyle: 'solid'}}/>
-            <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>{
+            <ReactAudioPlayer src={props.audioSrc} controls style={{boxShadow: 'none', outline: 'none', backgroundColor: '#f1f3f4', width: '100%', borderWidth: '2', borderColor: '#e29ef9', borderStyle: 'solid'}}/>
+            <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>
+            {
             click && (typeof items.tracklist === 'string' ?
                 <p className="text-warning">none. try reloading the page!</p> : <div className="mt-3">
                     {Object.entries(items.tracklist).map(([, track], i) => (
@@ -40,8 +42,11 @@ function ShowEntry(props: ShowEntryProps) {
                             {int2roman(i + 1)}. {track.song} {'>>'} {track.artist}
                         </p>
                     ))}
+                {
+                    props.tags && <p className={"mt-2 text-lg-end"}>genres: <em>{props.tags}</em></p>
+                }
                 </div>)
-        }
+            }
         </div>
     )
 }
