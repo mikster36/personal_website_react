@@ -2,4 +2,4 @@
 
 yep now it uses react
 
-[michurl.net](michurl.net)
+[michurl.net](https://michurl.net)
