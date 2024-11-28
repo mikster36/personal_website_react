@@ -35,8 +35,8 @@ function ShowEntry(props: ShowEntryProps) {
             <ReactAudioPlayer src={props.audioSrc} controls style={{boxShadow: 'none', outline: 'none', backgroundColor: '#f1f3f4', width: '100%', borderWidth: '2', borderColor: '#e29ef9', borderStyle: 'solid'}}/>
             <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>
             {
-            click && (typeof items.tracklist === 'string' ?
-                <p className="text-warning">none. try reloading the page!</p> : <div className="mt-3">
+            click && (!items.tracklist ?
+                <p className="text-center mt-3 text-warning">an error occured while fetching tracks, try reloading the page!</p> : <div className="mt-3">
                     {Object.entries(items.tracklist).map(([, track], i) => (
                         <p key={i}>
                             {int2roman(i + 1)}. {track.song} {'>>'} {track.artist}

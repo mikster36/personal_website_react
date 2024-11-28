@@ -12,7 +12,8 @@ interface tracklistlist {
     [date: string]: track[] | string
 }
 
-const dates = ['090624', '091324', '092024', '092724', '100424', '101824', '102524', '110124', '110824', '111524'];
+const dates = ['090624', '091324', '092024', '092724', '100424', '101824', '102524', '110124', '110824',
+    '111524', '112924'];
 
 
 function TwoStepAuthentication() {
@@ -52,6 +53,7 @@ function TwoStepAuthentication() {
         <>
             <Helmet>
                 <link rel="icon" type="image/svg+xml" href="/2sa/media/2sa_logo_favicon_64x64.png"/>
+                <link rel="apple-touch-icon" sizes="180x180" href="/2sa/media/2sa_apple_touch_icon.png"/>
                 <title>Two Step Authentication</title>
             </Helmet>
             {
@@ -90,6 +92,11 @@ function TwoStepAuthentication() {
                                         </p>
                                     </div>
 
+                                    <ShowEntry direction={'left'} date={'November 29, 2024 | 100% PRODUCTION MIX'}
+                                               audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa112924.mp3'}
+                                               tracklist={tracklists['112924']}
+                                               tags={'#garage #club #breaks #house'}
+                                    />
                                     <ShowEntry direction={'right'} date={'November 15, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa111524.mp3'}
                                                tracklist={tracklists['111524']}
