@@ -13,7 +13,7 @@ interface tracklistlist {
 }
 
 const dates = ['090624', '091324', '092024', '092724', '100424', '101824', '102524', '110124', '110824',
-    '111524', '112924'];
+    '111524', '112924', '120624'];
 
 
 function TwoStepAuthentication() {
@@ -92,6 +92,11 @@ function TwoStepAuthentication() {
                                         </p>
                                     </div>
 
+                                    <ShowEntry direction={'right'} date={'December 6, 2024'}
+                                               audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa120624.mp3'}
+                                               tracklist={tracklists['120624']}
+                                               tags={'#club #volt #breaks'}
+                                    />
                                     <ShowEntry direction={'left'} date={'November 29, 2024 | 100% PRODUCTION MIX'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa112924.mp3'}
                                                tracklist={tracklists['112924']}
