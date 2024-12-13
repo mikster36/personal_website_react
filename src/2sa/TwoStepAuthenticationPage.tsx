@@ -13,7 +13,7 @@ interface tracklistlist {
 }
 
 const dates = ['090624', '091324', '092024', '092724', '100424', '101824', '102524', '110124', '110824',
-    '111524', '112924', '120624'];
+    '111524', '112924', '120624', '121324'];
 
 
 function TwoStepAuthentication() {
@@ -86,12 +86,17 @@ function TwoStepAuthentication() {
 
                                     <div className="row mt-3">
                                         <p className="font-monospace text-center">
-                                            Friday afternoons from 4-5 on WREK 91.1 MHz or{' '}
-                                            <a href="https://www.wrek.org/player"
-                                               className="link-dark">wrek.org/player</a>
+                                            airing sporadically on WREK 91.1 MHz and {' '} <a href="https://www.wrek.org/player"
+                                               className="link-dark">wrek.org/player</a> | formerly aired on Friday
+                                            afternoons from 4-5
                                         </p>
                                     </div>
 
+                                    <ShowEntry direction={'left'} date={'December 13, 2024'}
+                                               audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa121324.mp3'}
+                                               tracklist={tracklists['121324']}
+                                               tags={'#speed-garage #baile-funk #jersey-club #techno #donk'}
+                                    />
                                     <ShowEntry direction={'right'} date={'December 6, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa120624.mp3'}
                                                tracklist={tracklists['120624']}
@@ -175,9 +180,7 @@ function TwoStepAuthentication() {
                                                 and everything in between.
                                             </p>
                                             <p className="text-end">
-                                                all sets are recorded live and archived shortly after, so you MAY hear
-                                                the
-                                                occasional sloppy transition (whoops!)
+                                                if it makes me move, i'll play it :)
                                             </p>
                                         </div>
                                     </div>
