@@ -9,11 +9,11 @@ export interface track {
 }
 
 interface tracklistlist {
-    [date: string]: track[] | string
+    [date: string]: track[]
 }
 
 const dates = ['090624', '091324', '092024', '092724', '100424', '101824', '102524', '110124', '110824',
-    '111524', '112924', '120624', '121324'];
+    '111524', '112924', '120624', '121324', '020725'];
 
 
 function TwoStepAuthentication() {
@@ -92,6 +92,12 @@ function TwoStepAuthentication() {
                                         </p>
                                     </div>
 
+                                    <ShowEntry direction={'right'} date={'February 7, 2025'}
+                                               audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa020725.mp3'}
+                                               note={" Don't have a set list for this one unfortunately! But, the first " +
+                                                   "40 minutes is mostly OSSX and DJ Swisha."}
+                                               tags={'#club #baltimore-club #breaks #garage'}
+                                    />
                                     <ShowEntry direction={'left'} date={'December 13, 2024'}
                                                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa121324.mp3'}
                                                tracklist={tracklists['121324']}

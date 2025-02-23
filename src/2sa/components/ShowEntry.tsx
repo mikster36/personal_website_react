@@ -8,7 +8,8 @@ interface ShowEntryProps {
     direction: 'left' | 'right';
     date: string;
     audioSrc: string;
-    tracklist: track[] | string;
+    note?: string;
+    tracklist?: track[];
     tags?: string;
 }
 
@@ -24,10 +25,24 @@ const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', 
 function ShowEntry(props: ShowEntryProps) {
     const [click, setClick] = useState<boolean>(false);
     const items = props;
+    const tracks = items.tracklist || [];
 
     const cursorOptions = ['zoom-in', 'pointer', 'crosshair', 'help', 'grab', 'grabbing'];
     const cursor = cursorOptions[Math.floor(Math.random() * 6)];
 
+    const tracklist = <>
+        {Object.entries(tracks).map(([, track], i) => (
+            <p key={i}>
+                {int2roman(i + 1)}. {track.song} {'>>'} {track.artist}
+            </p>
+        ))}
+    </>
+
+    const genres = <>
+        {
+            props.tags && <p className={"mt-2 text-lg-end"}>genres: <em>{props.tags}</em></p>
+        }
+    </>
 
     return (
         <div className="row mt-3 font-monospace">
@@ -35,17 +50,17 @@ function ShowEntry(props: ShowEntryProps) {
             <ReactAudioPlayer src={props.audioSrc} controls style={{boxShadow: 'none', outline: 'none', backgroundColor: '#f1f3f4', width: '100%', borderWidth: '2', borderColor: '#e29ef9', borderStyle: 'solid'}}/>
             <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>
             {
-            click && (!items.tracklist ?
-                <p className="text-center mt-3 text-warning">an error occured while fetching tracks, try reloading the page!</p> : <div className="mt-3">
-                    {Object.entries(items.tracklist).map(([, track], i) => (
-                        <p key={i}>
-                            {int2roman(i + 1)}. {track.song} {'>>'} {track.artist}
-                        </p>
-                    ))}
-                {
-                    props.tags && <p className={"mt-2 text-lg-end"}>genres: <em>{props.tags}</em></p>
-                }
-                </div>)
+                click && <div className="mt-3">
+                    {tracks.length && tracklist}
+                    {items.note}
+                    {genres}
+                </div>
+            }
+            {
+                click && !items.tracklist && !items.note &&
+                <p className="text-center mt-3 text-warning">an error occured while fetching tracks, try reloading the
+                    page!</p>
+
             }
         </div>
     )
