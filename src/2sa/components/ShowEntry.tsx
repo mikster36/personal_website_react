@@ -35,18 +35,18 @@ function ShowEntry(props: ShowEntryProps) {
         }
         const fetchTracklists = async () => {
             try {
-                const response = await fetch(new URL(tracklistSrc));
+                const response = await fetch(tracklistSrc);
                 if (response.ok) {
                     setTracks(await response.json() as track[]);
                 } else {
                     setError(true);
                 }
-            } catch (err) {
+            } catch (_) {
                 setError(true);
             }
         };
         fetchTracklists();
-    }, []);
+    }, [props.tracklistSrc]);
 
     const cursorOptions = ['zoom-in', 'pointer', 'crosshair', 'help', 'grab', 'grabbing'];
     const cursor = cursorOptions[Math.floor(Math.random() * 6)];

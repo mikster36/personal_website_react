@@ -14,7 +14,7 @@ enum ShowType {
 }
 
 function TwoStepAuthentication() {
-    const [showType, setShowType] = useState<ShowType>(ShowType.SA2);
+    const [showType, setShowType] = useState<ShowType>(new URLSearchParams(window.location.search).get('3sa') ? ShowType.SA3 : ShowType.SA2);
 
     const handleClick = (newShowType: ShowType) => {
         if (newShowType !== showType) {
@@ -118,17 +118,19 @@ function TwoStepAuthentication() {
             </p>
         </div>
     );
-    
+
     const threeStepAuthShowEntries = (
         <>
             <ShowEntry direction={'right'} date={'March 29, 2025'}
-                       audioSrc={'https://3saarchive.s3.amazonaws.com/music/3sa032924.mp3'}
-                       note=" i'll upload it later..."
+                       audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa032925.mp3'}
+                       tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
+                       tags={'#rap #pc-music #baile-funk'}
             >
             </ShowEntry>
             <ShowEntry direction={'left'} date={'March 6, 2025'}
-                       audioSrc={'https://3saarchive.s3.amazonaws.com/music/3sa030624.mp3'}
-                       note=" i'll upload it later..."
+                       audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa030625.mp3'}
+                       tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
+                       tags={'#music'}
             >
             </ShowEntry>
         </>
