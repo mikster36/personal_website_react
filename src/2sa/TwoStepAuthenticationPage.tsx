@@ -140,6 +140,9 @@ function TwoStepAuthentication() {
     return (
         <>
             <Helmet>
+                <meta property="og:title" content="Two Step Authentication"/>
+                <meta property="og:image"
+                      content="/2sa/media/2sa_apple_touch_icon.png"/>
                 <link rel="icon" type="image/svg+xml" href="/2sa/media/2sa_logo_favicon_64x64.png"/>
                 <link rel="apple-touch-icon" sizes="180x180" href="/2sa/media/2sa_apple_touch_icon.png"/>
                 <title>Two Step Authentication</title>
