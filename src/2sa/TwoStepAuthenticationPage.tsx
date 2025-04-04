@@ -123,8 +123,9 @@ function TwoStepAuthentication() {
         <>
             <ShowEntry direction={'right'} date={'March 29, 2025'}
                        audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa032925.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
+                       tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/032925.json'}
                        tags={'#rap #pc-music #baile-funk'}
+                       note={'thanks miggy for the tracks!'}
             >
             </ShowEntry>
             <ShowEntry direction={'left'} date={'March 6, 2025'}
