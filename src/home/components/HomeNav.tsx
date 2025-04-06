@@ -11,7 +11,14 @@ function HomeNav() {
                     <Nav className="ms-auto">
                         <Nav.Link as={NavLink} to="/" className="font-monospace">About Me</Nav.Link>
                         <Nav.Link as={NavLink} to="/projects" className="font-monospace">Projects</Nav.Link>
-                        <Nav.Link href="/home/media/Michael_Ortega_resume.pdf" className="font-monospace" target="_blank" rel="noopener noreferrer">Resume</Nav.Link>
+                        <Nav.Link
+                            href="/home/media/Michael_Ortega_resume.pdf"
+                            className="font-monospace"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Resume
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </div>

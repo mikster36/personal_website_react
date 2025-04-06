@@ -1,5 +1,5 @@
 import Marquee from 'react-fast-marquee';
-import {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {track} from "../TwoStepAuthenticationPage.tsx";
 import {int2roman} from "../../util.ts";
 import ReactAudioPlayer from "react-audio-player";
@@ -11,6 +11,9 @@ interface ShowEntryProps {
     note?: string;
     tracklistSrc?: string;
     tags?: string;
+    onPlay?: (epsiode: string) => void;
+    onPause?: (epsiode: string) => void;
+    ref: React.RefObject<ReactAudioPlayer>;
 }
 
 const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', date: string}) => {
@@ -23,13 +26,13 @@ const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', 
 });
 
 function ShowEntry(props: ShowEntryProps) {
+    const {direction, date, audioSrc, note, tracklistSrc, tags,
+        onPlay = () => {}, onPause = () => {}, ref} = props;
     const [click, setClick] = useState<boolean>(false);
     const [error, setError] = useState(false);
     const [tracks, setTracks] = useState<track[]>([]);
-    const items = props;
 
     useEffect(() => {
-        const tracklistSrc = props.tracklistSrc;
         if (!tracklistSrc) {
             return;
         }
@@ -46,42 +49,52 @@ function ShowEntry(props: ShowEntryProps) {
             }
         };
         fetchTracklists();
-    }, [props.tracklistSrc]);
+    }, [tracklistSrc]);
 
     const cursorOptions = ['zoom-in', 'pointer', 'crosshair', 'help', 'grab', 'grabbing'];
     const cursor = cursorOptions[Math.floor(Math.random() * 6)];
 
     const tracklist = <>
-        {Object.entries(tracks).map(([, track], i) => (
+        {Object.entries(tracks).map(([, _track], i) => (
             <p key={i}>
-                {int2roman(i + 1)}. {track.song} {'>>'} {track.artist}
+                {int2roman(i + 1)}. {_track.song} {'>>'} {_track.artist}
             </p>
         ))}
     </>
 
     const genres = <>
         {
-            props.tags && <p className={"mt-2 text-lg-end"}>genres: <em>{props.tags}</em></p>
+            tags && <p className={"mt-2 text-lg-end"}>genres: <em>{tags}</em></p>
         }
     </>
 
     return (
         <div className="row mt-3">
-            <MemoizedMarquee direction={props.direction} date={props.date} />
-            <ReactAudioPlayer src={props.audioSrc} controls style={{boxShadow: 'none', outline: 'none', backgroundColor: '#f1f3f4', width: '100%', borderWidth: '2', borderColor: '#e29ef9', borderStyle: 'solid'}}/>
+            <MemoizedMarquee direction={direction} date={date} />
+            <ReactAudioPlayer
+                src={audioSrc}
+                controls
+                style={
+                    {boxShadow: 'none',
+                        outline: 'none',
+                        backgroundColor:'#f1f3f4',
+                        width: '100%',
+                        borderWidth: '2',
+                        borderColor: '#e29ef9',
+                        borderStyle: 'solid'}
+                }
+                onPlay={() => onPlay(date)}
+                onPause={() => onPause(date)}
+                ref={ref}
+            />
             <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>
             {
                 click && <div className="mt-3">
-                    {props.tracklistSrc && tracks.length && tracklist}
-                    {items.note}
+                    {!error && tracklistSrc && tracks.length && tracklist}
+                    {error && <p className="text-center text-warning">an error occured while fetching tracks, try reloading the page!</p>}
+                    {note}
                     {genres}
                 </div>
-            }
-            {
-                click && error &&
-                <p className="text-center mt-3 text-warning">an error occured while fetching tracks, try reloading the
-                    page!</p>
-
             }
         </div>
     )

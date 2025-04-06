@@ -45,20 +45,20 @@ function AboutMe() {
                                                 <div className="col-auto">
                                                     <a href="https://twitter.com/downbadbot" className="link-dark">
                                                         <i className="bi bi-twitter enlarged" role="link"
-                                                           aria-label="Twitter"></i>
+                                                            aria-label="Twitter"></i>
                                                     </a>
                                                 </div>
                                                 <div className="col-auto">
                                                     <a href="https://github.com/mikster36" className="link-dark">
                                                         <i className="bi bi-github enlarged" role="link"
-                                                           aria-label="GitHub"></i>
+                                                            aria-label="GitHub"></i>
                                                     </a>
                                                 </div>
                                                 <div className="col-auto">
                                                     <a href="https://www.linkedin.com/in/michaelrortega45/"
-                                                       className="link-dark">
+                                                        className="link-dark">
                                                         <i className="bi bi-linkedin enlarged" role="link"
-                                                           aria-label="LinkedIn"></i>
+                                                            aria-label="LinkedIn"></i>
                                                     </a>
                                                 </div>
                                             </div>

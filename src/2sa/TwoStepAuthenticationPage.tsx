@@ -1,7 +1,8 @@
 import {Link} from "react-router-dom";
 import ShowEntry from "./components/ShowEntry.tsx";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {Helmet} from "react-helmet-async";
+import ReactAudioPlayer from "react-audio-player";
 
 export interface track {
     song: string;
@@ -14,7 +15,20 @@ enum ShowType {
 }
 
 function TwoStepAuthentication() {
-    const [showType, setShowType] = useState<ShowType>(new URLSearchParams(window.location.search).get('3sa') ? ShowType.SA3 : ShowType.SA2);
+    const [showType, setShowType] = useState<ShowType>(
+        new URLSearchParams(window.location.search).get('3sa') ? ShowType.SA3 : ShowType.SA2);
+    const [currentEpisode, setCurrentEpisode] = useState<string | null>(null);
+    const audio = useRef<ReactAudioPlayer>(null);
+
+    const handlePlay = (episode: string) => {
+        setCurrentEpisode(episode);
+    }
+
+     
+    const handlePause = () => {
+        setCurrentEpisode(null);
+    }
+
 
     const handleClick = (newShowType: ShowType) => {
         if (newShowType !== showType) {
@@ -26,7 +40,7 @@ function TwoStepAuthentication() {
         <div className="row mt-3">
             <p className="text-center">
                 airing sporadically on WREK 91.1 MHz and {' '} <a href="https://www.wrek.org/player"
-                                                                  className="link-dark">wrek.org/player</a> | formerly
+                    className="link-dark">wrek.org/player</a> | formerly
                 aired on Friday
                 afternoons from 4-5
             </p>
@@ -35,76 +49,146 @@ function TwoStepAuthentication() {
 
     const twoStepAuthShowEntries = (
         <>
-            <ShowEntry direction={'right'} date={'February 7, 2025'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa020725.mp3'}
-                       note={" Don't have a set list for this one unfortunately! But, the first " +
+            <ShowEntry
+                direction={'right'}
+                date={'February 7, 2025'}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa020725.mp3'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                note={" Don't have a set list for this one unfortunately! But, the first " +
                            "40 minutes is mostly OSSX and DJ Swisha."}
-                       tags={'#club #baltimore-club #breaks #garage'}
+                tags={'#club #baltimore-club #breaks #garage'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'December 13, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa121324.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/121324.json'}
-                       tags={'#speed-garage #baile-funk #jersey-club #techno #donk'}
+            <ShowEntry
+                direction={'left'}
+                date={'December 13, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa121324.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/121324.json'}
+                tags={'#speed-garage #baile-funk #jersey-club #techno #donk'}
+                ref={audio}
             />
-            <ShowEntry direction={'right'} date={'December 6, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa120624.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/120624.json'}
-                       tags={'#club #volt #breaks'}
+            <ShowEntry
+                direction={'right'}
+                date={'December 6, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa120624.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/120624.json'}
+                tags={'#club #volt #breaks'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'November 29, 2024 | 100% PRODUCTION MIX'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa112924.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/112924.json'}
-                       tags={'#garage #club #breaks #house'}
+            <ShowEntry
+                direction={'left'}
+                date={'November 29, 2024 | 100% PRODUCTION MIX'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa112924.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/112924.json'}
+                tags={'#garage #club #breaks #house'}
+                ref={audio}
             />
-            <ShowEntry direction={'right'} date={'November 15, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa111524.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/111524.json'}
-                       tags={'#club #speed-garage #baile-funk #footwork #breaks #jungle'}
+            <ShowEntry
+                direction={'right'}
+                date={'November 15, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa111524.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/111524.json'}
+                tags={'#club #speed-garage #baile-funk #footwork #breaks #jungle'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'November 8, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110824.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110824.json'}
-                       tags={'#breaks #club #garage #baile-funk #jungle #footwork'}
+            <ShowEntry
+                direction={'left'}
+                date={'November 8, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110824.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110824.json'}
+                tags={'#breaks #club #garage #baile-funk #jungle #footwork'}
+                ref={audio}
             />
-            <ShowEntry direction={'right'} date={'November 1, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110124.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110124.json'}
-                       tags={'#footwork #electro'}
+            <ShowEntry
+                direction={'right'}
+                date={'November 1, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110124.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110124.json'}
+                tags={'#footwork #electro'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'October 25, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa102524.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/102524.json'}
-                       tags={'#speed-garage #latin-club #jersey-club #footwork #donk'}
+            <ShowEntry
+                direction={'left'}
+                date={'October 25, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa102524.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/102524.json'}
+                tags={'#speed-garage #latin-club #jersey-club #footwork #donk'}
+                ref={audio}
             />
-            <ShowEntry direction={'right'} date={'October 18, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/101824.json'}
-                       tags={'#speed-garage #jersey-club #house #breaks'}
+            <ShowEntry
+                direction={'right'}
+                date={'October 18, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/101824.json'}
+                tags={'#speed-garage #jersey-club #house #breaks'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'October 4, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa100424.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/100424.json'}
-                       tags={'#jersey-club #baile-funk #speed-garage'}
+            <ShowEntry
+                direction={'left'}
+                date={'October 4, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa100424.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/100424.json'}
+                tags={'#jersey-club #baile-funk #speed-garage'}
+                ref={audio}
             />
-            <ShowEntry direction={'right'} date={'September 27, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092724.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092724.json'}
-                       tags={'#speed-garage #jersey-club #jungle #breakcore'}
+            <ShowEntry
+                direction={'right'}
+                date={'September 27, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092724.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092724.json'}
+                tags={'#speed-garage #jersey-club #jungle #breakcore'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'September 20, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092024.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092024.json'}
-                       tags={'#garage #speed-garage'}
+            <ShowEntry
+                direction={'left'}
+                date={'September 20, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092024.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092024.json'}
+                tags={'#garage #speed-garage'}
+                ref={audio}
             />
-            <ShowEntry direction={'right'} date={'September 13, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa091324.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/091324.json'}
-                       tags={'#speed-garage #club #jersey-club #hyperflip'}
+            <ShowEntry
+                direction={'right'}
+                date={'September 13, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa091324.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/091324.json'}
+                tags={'#speed-garage #club #jersey-club #hyperflip'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'September 6, 2024'}
-                       audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa090624.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/090624.json'}
-                       tags={'#garage #house #jersey-club #baile-funk'}
+            <ShowEntry
+                direction={'left'}
+                date={'September 6, 2024'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa090624.mp3'}
+                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/090624.json'}
+                tags={'#garage #house #jersey-club #baile-funk'}
+                ref={audio}
             />
         </>
     );
@@ -113,7 +197,7 @@ function TwoStepAuthentication() {
         <div className="row mt-3">
             <p className="text-center">
                 not airing on WREK 91.1 MHz or {' '} <a href="https://www.wrek.org/player"
-                                                        className="link-dark">wrek.org/player</a> | these are
+                    className="link-dark">wrek.org/player</a> | these are
                 additional mixes I've uploaded here for your listening pleasure
             </p>
         </div>
@@ -121,21 +205,36 @@ function TwoStepAuthentication() {
 
     const threeStepAuthShowEntries = (
         <>
-            <ShowEntry direction={'left'} date={'April 5, 2025'}
-                       audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa040525.mp3'}
-                       tags={'#club'}
-                       note={'[REDACTED]'}
-             />
-            <ShowEntry direction={'right'} date={'March 29, 2025'}
-                       audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa032925.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/032925.json'}
-                       tags={'#rap #pc-music #baile-funk'}
-                       note={'thanks miggy for the tracks!'}
+            <ShowEntry
+                direction={'left'}
+                date={'April 5, 2025'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa040525.mp3'}
+                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/040525.json'}
+                tags={'#club'}
+                ref={audio}
             />
-            <ShowEntry direction={'left'} date={'March 6, 2025'}
-                       audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa030625.mp3'}
-                       tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
-                       tags={'#music'}
+            <ShowEntry
+                direction={'right'}
+                date={'March 29, 2025'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa032925.mp3'}
+                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/032925.json'}
+                tags={'#rap #pc-music #baile-funk'}
+                note={'thanks miggy for the tracks!'}
+                ref={audio}
+            />
+            <ShowEntry
+                direction={'left'}
+                date={'March 6, 2025'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa030625.mp3'}
+                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
+                tags={'#music'}
+                ref={audio}
             />
         </>
     )
@@ -145,10 +244,15 @@ function TwoStepAuthentication() {
             <Helmet>
                 <meta property="og:title" content="Two Step Authentication"/>
                 <meta property="og:image"
-                      content="/2sa/media/2sa_apple_touch_icon.png"/>
+                    content="/2sa/media/2sa_apple_touch_icon.png"/>
                 <link rel="icon" type="image/svg+xml" href="/2sa/media/2sa_logo_favicon_64x64.png"/>
                 <link rel="apple-touch-icon" sizes="180x180" href="/2sa/media/2sa_apple_touch_icon.png"/>
-                <title>Two Step Authentication</title>
+                <title>
+                    {
+                        `${showType === ShowType.SA2 ? 'Two' : 'Three'}
+                         Step Authentication${currentEpisode !== null ? ` — ${currentEpisode}` : ''}`
+                    }
+                </title>
             </Helmet>
             {
                 (
@@ -175,7 +279,7 @@ function TwoStepAuthentication() {
 
                                     <div className="row">
                                         <img src={"/2sa/media/2sa_banner_lens_flare.jpg"} className="img-fluid"
-                                             alt="Banner"/>
+                                            alt="Banner"/>
                                     </div>
 
                                     {
@@ -235,7 +339,8 @@ function TwoStepAuthentication() {
                                                 the name is taken from the multi-factor authentication you probably
                                                 use for several apps, but more importantly it's an ode to swami sound's
                                                 show on <a className="link-dark"
-                                                           href={"https://www.dublab.com/archive/swami-sound-two-step-verification-01-22-23"}>dublab</a>.
+                                                    href={"https://www.dublab.com/archive/swami-sound-two-step-verification-01-22-23"}>
+                                                dublab</a>.
                                             </p>
                                             <p className="text-start">
                                                 on 2sa, you'll hear speed garage, baile funk, jersey club, trance,

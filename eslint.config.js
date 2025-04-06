@@ -14,8 +14,8 @@ export default tseslint.config(
       globals: globals.browser,
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+        'react-hooks': reactHooks,
+        'react-refresh': reactRefresh,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -23,6 +23,15 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+        "max-len": ["error", 140],
+        "indent": ["error", 4],
+        "react/require-default-props": 'off',
+        "react/tsx-props-no-spreading": 'off',
+        "react/tsx-one-expression-per-line": 'off',
+        "no-use-before-define": 'off',
+        "@typescript-eslint/no-use-before-define": 'off',
+        "no-shadow": 'off',
+        "@typescript-eslint/no-shadow": ["error"],
     },
   },
 )
