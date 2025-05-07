@@ -13,7 +13,7 @@ interface ShowEntryProps {
     tags?: string;
     onPlay?: (epsiode: string) => void;
     onPause?: (epsiode: string) => void;
-    ref: React.RefObject<ReactAudioPlayer>;
+    setAudioRef: (audioRef: HTMLAudioElement, episode: string) => void;
 }
 
 const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', date: string}) => {
@@ -27,7 +27,7 @@ const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', 
 
 function ShowEntry(props: ShowEntryProps) {
     const {direction, date, audioSrc, note, tracklistSrc, tags,
-        onPlay = () => {}, onPause = () => {}, ref} = props;
+        onPlay = () => {}, onPause = () => {}, setAudioRef} = props;
     const [click, setClick] = useState<boolean>(false);
     const [error, setError] = useState(false);
     const [tracks, setTracks] = useState<track[]>([]);
@@ -85,7 +85,7 @@ function ShowEntry(props: ShowEntryProps) {
                 }
                 onPlay={() => onPlay(date)}
                 onPause={() => onPause(date)}
-                ref={ref}
+                ref={(ref) => setAudioRef(ref?.audioEl?.current, date)}
             />
             <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>
             {

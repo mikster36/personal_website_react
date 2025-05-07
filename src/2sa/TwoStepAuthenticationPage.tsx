@@ -2,7 +2,6 @@ import {Link} from "react-router-dom";
 import ShowEntry from "./components/ShowEntry.tsx";
 import {useRef, useState} from "react";
 import {Helmet} from "react-helmet-async";
-import ReactAudioPlayer from "react-audio-player";
 
 export interface track {
     song: string;
@@ -18,15 +17,24 @@ function TwoStepAuthentication() {
     const [showType, setShowType] = useState<ShowType>(
         new URLSearchParams(window.location.search).get('3sa') ? ShowType.SA3 : ShowType.SA2);
     const [currentEpisode, setCurrentEpisode] = useState<string | null>(null);
-    const audio = useRef<ReactAudioPlayer>(null);
+    const audio = useRef<HTMLAudioElement>();
+    
+    const setAudioRef = (audioRef: HTMLAudioElement, episode: string) => {
+        if (episode === currentEpisode) {
+            audio.current = audioRef;
+        }
+    }
 
     const handlePlay = (episode: string) => {
+        if (currentEpisode && episode !== currentEpisode) {
+            audio.current?.pause();
+        }
         setCurrentEpisode(episode);
     }
 
      
     const handlePause = () => {
-        setCurrentEpisode(null);
+        // idk
     }
 
 
@@ -58,7 +66,7 @@ function TwoStepAuthentication() {
                 note={" Don't have a set list for this one unfortunately! But, the first " +
                            "40 minutes is mostly OSSX and DJ Swisha."}
                 tags={'#club #baltimore-club #breaks #garage'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -68,7 +76,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa121324.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/121324.json'}
                 tags={'#speed-garage #baile-funk #jersey-club #techno #donk'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -78,7 +86,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa120624.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/120624.json'}
                 tags={'#club #volt #breaks'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -88,7 +96,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa112924.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/112924.json'}
                 tags={'#garage #club #breaks #house'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -98,7 +106,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa111524.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/111524.json'}
                 tags={'#club #speed-garage #baile-funk #footwork #breaks #jungle'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -108,7 +116,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110824.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110824.json'}
                 tags={'#breaks #club #garage #baile-funk #jungle #footwork'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -118,7 +126,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110124.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110124.json'}
                 tags={'#footwork #electro'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -128,7 +136,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa102524.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/102524.json'}
                 tags={'#speed-garage #latin-club #jersey-club #footwork #donk'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -138,7 +146,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/101824.json'}
                 tags={'#speed-garage #jersey-club #house #breaks'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -148,7 +156,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa100424.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/100424.json'}
                 tags={'#jersey-club #baile-funk #speed-garage'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -158,7 +166,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092724.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092724.json'}
                 tags={'#speed-garage #jersey-club #jungle #breakcore'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -168,7 +176,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092024.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092024.json'}
                 tags={'#garage #speed-garage'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -178,7 +186,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa091324.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/091324.json'}
                 tags={'#speed-garage #club #jersey-club #hyperflip'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -188,7 +196,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa090624.mp3'}
                 tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/090624.json'}
                 tags={'#garage #house #jersey-club #baile-funk'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
         </>
     );
@@ -206,6 +214,16 @@ function TwoStepAuthentication() {
     const threeStepAuthShowEntries = (
         <>
             <ShowEntry
+                direction={'right'}
+                date={'May 6, 2025'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa050625.mp3'}
+                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/050625.json'}
+                tags={'#club #club #club'}
+                setAudioRef={setAudioRef}
+            />
+            <ShowEntry
                 direction={'left'}
                 date={'April 5, 2025'}
                 onPlay={handlePlay}
@@ -213,7 +231,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa040525.mp3'}
                 tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/040525.json'}
                 tags={'#club'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'right'}
@@ -224,7 +242,7 @@ function TwoStepAuthentication() {
                 tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/032925.json'}
                 tags={'#rap #pc-music #baile-funk'}
                 note={'thanks miggy for the tracks!'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
             <ShowEntry
                 direction={'left'}
@@ -234,7 +252,7 @@ function TwoStepAuthentication() {
                 audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa030625.mp3'}
                 tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
                 tags={'#music'}
-                ref={audio}
+                setAudioRef={setAudioRef}
             />
         </>
     )
