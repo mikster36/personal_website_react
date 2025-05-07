@@ -19,8 +19,8 @@ function TwoStepAuthentication() {
     const [currentEpisode, setCurrentEpisode] = useState<string | null>(null);
     const audio = useRef<HTMLAudioElement>();
     
-    const setAudioRef = (audioRef: HTMLAudioElement, episode: string) => {
-        if (episode === currentEpisode) {
+    const setAudioRef = (audioRef: HTMLAudioElement | null | undefined, episode: string) => {
+        if (episode === currentEpisode && audioRef) {
             audio.current = audioRef;
         }
     }

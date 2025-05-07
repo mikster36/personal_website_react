@@ -1,5 +1,5 @@
 import Marquee from 'react-fast-marquee';
-import React, {memo, useEffect, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {track} from "../TwoStepAuthenticationPage.tsx";
 import {int2roman} from "../../util.ts";
 import ReactAudioPlayer from "react-audio-player";
@@ -13,7 +13,7 @@ interface ShowEntryProps {
     tags?: string;
     onPlay?: (epsiode: string) => void;
     onPause?: (epsiode: string) => void;
-    setAudioRef: (audioRef: HTMLAudioElement, episode: string) => void;
+    setAudioRef: (audioRef: HTMLAudioElement | null | undefined, episode: string) => void;
 }
 
 const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', date: string}) => {
