@@ -4,7 +4,6 @@ frontend:
     preBuild:
       commands:
         - nvm install 22
-        - nvm use 2
         - npm install
     build:
       commands:
