@@ -214,6 +214,17 @@ function TwoStepAuthentication() {
     const threeStepAuthShowEntries = (
         <>
             <ShowEntry
+                direction={'left'}
+                date={'May 17, 2025'}
+                onPlay={handlePlay}
+                onPause={handlePause}
+                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa051725.mp3'}
+                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/051725.json'}
+                tags={'#breaks'}
+                note={'hit the panic button at least 8 times this set (no pun intended)'}
+                setAudioRef={setAudioRef}
+            />
+            <ShowEntry
                 direction={'right'}
                 date={'May 6, 2025'}
                 onPlay={handlePlay}
