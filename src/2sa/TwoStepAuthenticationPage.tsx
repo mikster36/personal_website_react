@@ -219,6 +219,7 @@ function TwoStepAuthentication() {
                 onPlay={handlePlay}
                 onPause={handlePause}
                 audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa062425.mp3'}
+                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/062425.json'}
                 note={'tracklist later'}
                 tags={'#bass #breaks'}
                 setAudioRef={setAudioRef}
