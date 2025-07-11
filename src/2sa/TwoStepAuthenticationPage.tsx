@@ -218,8 +218,9 @@ function TwoStepAuthentication() {
                 date={'July 20, 2025'}
                 onPlay={handlePlay}
                 onPause={handlePause}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa072025.mp3'}
-                tags={'#hardgroove-techno'}
+                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa071025.mp3'}
+                note={"i'll have the tracklist tomorrow"}
+                tags={'#hardgroove-techno #breaks'}
                 setAudioRef={setAudioRef}
             />
             <ShowEntry
