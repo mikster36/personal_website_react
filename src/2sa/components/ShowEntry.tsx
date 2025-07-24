@@ -1,5 +1,5 @@
 import Marquee from 'react-fast-marquee';
-import {memo, useEffect, useState} from 'react';
+import {memo, useEffect, useRef, useState} from 'react';
 import {track} from "../TwoStepAuthenticationPage.tsx";
 import {int2roman} from "../../util.ts";
 import ReactAudioPlayer from "react-audio-player";
@@ -8,6 +8,7 @@ interface ShowEntryProps {
     direction: 'left' | 'right';
     date: string;
     audioSrc: string;
+    initiallyPlaying?: boolean;
     note?: string;
     tracklistSrc?: string;
     tags?: string;
@@ -25,10 +26,11 @@ const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', 
     );
 });
 
-function ShowEntry(props: ShowEntryProps) {
-    const {direction, date, audioSrc, note, tracklistSrc, tags,
+export const ShowEntry = (props: ShowEntryProps) => {
+    const {direction, date, audioSrc, note, tracklistSrc, tags, initiallyPlaying = false,
         onPlay = () => {}, onPause = () => {}, setAudioRef} = props;
-    const [click, setClick] = useState<boolean>(false);
+    const scroll = useRef(initiallyPlaying);
+    const [click, setClick] = useState<boolean>(initiallyPlaying);
     const [error, setError] = useState(false);
     const [tracks, setTracks] = useState<track[]>([]);
 
@@ -69,7 +71,13 @@ function ShowEntry(props: ShowEntryProps) {
     </>
 
     return (
-        <div className="row mt-3">
+        <div className="row mt-3" ref={(ref) => {
+            if (scroll.current) {
+                console.log(ref);
+                ref?.scrollIntoView();
+                scroll.current = false;
+            }
+        }}>
             <MemoizedMarquee direction={direction} date={date} />
             <ReactAudioPlayer
                 src={audioSrc}
@@ -87,7 +95,11 @@ function ShowEntry(props: ShowEntryProps) {
                 onPause={() => onPause(date)}
                 ref={(ref) => setAudioRef(ref?.audioEl?.current, date)}
             />
-            <p className="link-dark mt-2" style={{width: '9ch', cursor: cursor, margin: 'auto'}} onClick={() => setClick(!click)}>tracklist</p>
+            <p
+                className="link-dark mt-2"
+                style={{width: '9ch', cursor: cursor, margin: 'auto'}}
+                onClick={() => setClick(!click)}>tracklist
+            </p>
             {
                 click && <div className="mt-3">
                     {!error && tracklistSrc && tracks.length && tracklist}
