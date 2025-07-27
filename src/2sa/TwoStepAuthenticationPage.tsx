@@ -2,6 +2,9 @@ import {Link, useSearchParams} from "react-router-dom";
 import ShowEntry from "./components/ShowEntry.tsx";
 import {useEffect, useMemo, useRef, useState} from "react";
 import {Helmet} from "react-helmet-async";
+import {TWO_STEP_AUTH_SHOWS} from "./data/2sa_shows.ts";
+import {getAudioSrc, getTracklistSrc} from "./utils.ts";
+import {THREE_STEP_AUTH_SHOWS} from "./data/3sa_shows.ts";
 
 export interface track {
     song: string;
@@ -74,119 +77,14 @@ function TwoStepAuthentication() {
         </div>
     );
 
-    const getCommonProps = useMemo(() => (date: string) => {
+    const getCommonProps = useMemo(() => (title: string) => {
         const urlEpisode = searchParams.get('episode');
         return {
-            date,
             onPlay: handlePlay,
             onPause: handlePause,
-            initiallyPlaying: date === urlEpisode,
+            initiallyPlaying: title === urlEpisode,
             setAudioRef,
         }}, [handlePlay, handlePause]);
-
-    const twoStepAuthShowEntries = (
-        <>
-            <ShowEntry
-                {...getCommonProps('February 7, 2025')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa020725.mp3'}
-                note={" Don't have a set list for this one unfortunately! But, the first " +
-                           "40 minutes is mostly OSSX and DJ Swisha."}
-                tags={'#club #baltimore-club #breaks #garage'}
-            />
-            <ShowEntry
-                {...getCommonProps('December 13, 2024')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa121324.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/121324.json'}
-                tags={'#speed-garage #baile-funk #jersey-club #techno #donk'}
-            />
-            <ShowEntry
-                {...getCommonProps('December 6, 2024')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa120624.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/120624.json'}
-                tags={'#club #volt #breaks'}
-            />
-            <ShowEntry
-                {...getCommonProps('November 29, 2024 | 100% PRODUCTION MIX')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa112924.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/112924.json'}
-                tags={'#garage #club #breaks #house'}
-            />
-            <ShowEntry
-                {...getCommonProps('November 15, 2024')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa111524.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/111524.json'}
-                tags={'#club #speed-garage #baile-funk #footwork #breaks #jungle'}
-            />
-            <ShowEntry
-                {...getCommonProps('November 8, 2024')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110824.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110824.json'}
-                tags={'#breaks #club #garage #baile-funk #jungle #footwork'}
-            />
-            <ShowEntry
-                {...getCommonProps('November 1, 2024')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa110124.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/110124.json'}
-                tags={'#footwork #electro'}
-            />
-            <ShowEntry
-                {...getCommonProps('October 25, 2024')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa102524.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/102524.json'}
-                tags={'#speed-garage #latin-club #jersey-club #footwork #donk'}
-            />
-            <ShowEntry
-                {...getCommonProps('October 18, 2024')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa101824.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/101824.json'}
-                tags={'#speed-garage #jersey-club #house #breaks'}
-            />
-            <ShowEntry
-                {...getCommonProps('October 4, 2024')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa100424.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/100424.json'}
-                tags={'#jersey-club #baile-funk #speed-garage'}
-            />
-            <ShowEntry
-                {...getCommonProps('September 27, 2024')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092724.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092724.json'}
-                tags={'#speed-garage #jersey-club #jungle #breakcore'}
-            />
-            <ShowEntry
-                {...getCommonProps('September 20, 2024')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa092024.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/092024.json'}
-                tags={'#garage #speed-garage'}
-            />
-            <ShowEntry
-                {...getCommonProps('September 13, 2024')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa091324.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/091324.json'}
-                tags={'#speed-garage #club #jersey-club #hyperflip'}
-            />
-            <ShowEntry
-                {...getCommonProps('September 6, 2024')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.amazonaws.com/music/2sa090624.mp3'}
-                tracklistSrc={'https://2saarchive.s3.amazonaws.com/tracklist/090624.json'}
-                tags={'#garage #house #jersey-club #baile-funk'}
-            />
-        </>
-    );
 
     const threeStepAuthDescription = (
         <div className="row mt-3">
@@ -197,69 +95,6 @@ function TwoStepAuthentication() {
             </p>
         </div>
     );
-
-    const threeStepAuthShowEntries = (
-        <>
-            <ShowEntry
-                {...getCommonProps('July 20, 2025')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa071025.mp3'}
-                note={"i'll have the tracklist later"}
-                tags={'#hardgroove-techno #breaks'}
-            />
-            <ShowEntry
-                {...getCommonProps('June 24, 2025')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa062425.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/062425.json'}
-                tags={'#bass #breaks'}
-            />
-            <ShowEntry
-                {...getCommonProps('June 14, 2025')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa061425.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/061425.json'}
-                tags={'#breaks #bass'}
-            />
-            <ShowEntry
-                {...getCommonProps('May 17, 2025')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa051725.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/051725.json'}
-                tags={'#breaks'}
-                note={'hit the panic button at least 8 times this set (no pun intended)'}
-            />
-            <ShowEntry
-                {...getCommonProps('May 6, 2025')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa050625.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/050625.json'}
-                tags={'#club #club #club'}
-            />
-            <ShowEntry
-                {...getCommonProps('April 5, 2025')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa040525.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/040525.json'}
-                tags={'#club'}
-            />
-            <ShowEntry
-                {...getCommonProps('March 29, 2025')}
-                direction={'right'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa032925.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/032925.json'}
-                tags={'#rap #pc-music #baile-funk'}
-                note={'thanks miggy for the tracks!'}
-            />
-            <ShowEntry
-                {...getCommonProps('March 6, 2025')}
-                direction={'left'}
-                audioSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/music/3sa030625.mp3'}
-                tracklistSrc={'https://2saarchive.s3.us-east-1.amazonaws.com/tracklist/030625.json'}
-                tags={'#music'}
-            />
-        </>
-    )
 
     return (
         <>
@@ -341,10 +176,34 @@ function TwoStepAuthentication() {
                                     </div>
 
                                     {
-                                        showType === ShowType.SA2 && twoStepAuthShowEntries
+                                        showType === ShowType.SA2 && TWO_STEP_AUTH_SHOWS.map(({id, title, note, tags}, i) => {
+                                            const newId = `${ShowType.SA2.toLowerCase()}${id}`;
+                                            return <ShowEntry
+                                                id={newId}
+                                                title={title}
+                                                direction={i % 2 === 0 ? 'right' : 'left'}
+                                                audioSrc={getAudioSrc(newId)}
+                                                tracklistSrc={getTracklistSrc(newId)}
+                                                note={note}
+                                                tags={tags}
+                                                {...getCommonProps(title)}
+                                            />;
+                                        })
                                     }
                                     {
-                                        showType === ShowType.SA3 && threeStepAuthShowEntries
+                                        showType === ShowType.SA3 && THREE_STEP_AUTH_SHOWS.map(({id, title, note, tags}, i) => {
+                                            const newId = `${ShowType.SA3.toLowerCase()}${id}`;
+                                            return <ShowEntry
+                                                id={newId}
+                                                title={title}
+                                                direction={i % 2 === 0 ? 'right' : 'left'}
+                                                audioSrc={getAudioSrc(newId)}
+                                                tracklistSrc={getTracklistSrc(newId)}
+                                                note={note}
+                                                tags={tags}
+                                                {...getCommonProps(title)}
+                                            />;
+                                        })
                                     }
 
                                     <br/>
