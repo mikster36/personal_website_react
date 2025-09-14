@@ -2,6 +2,12 @@ import {ShowStuff} from "../interface.ts";
 
 export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
+        id: '091325',
+        title: 'September 13, 2025',
+        tags: '#breaks #bass #garage',
+        videoUrl: 'https://www.youtube.com/watch?v=W_OhuJld1uo',
+    },
+    {
         id: '081025',
         title: 'August 10, 2025',
         tags: '#breaks #hardgroove-techno #dub',

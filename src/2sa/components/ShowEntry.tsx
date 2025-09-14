@@ -3,6 +3,7 @@ import {memo, useEffect, useRef, useState} from 'react';
 import {track} from "../TwoStepAuthenticationPage.tsx";
 import {int2roman} from "../../util.ts";
 import ReactAudioPlayer from "react-audio-player";
+import ReactPlayer from "react-player";
 import { IconButton } from '@mui/material';
 import { ChevronRight } from '@mui/icons-material';
 import {Col, Row } from 'react-bootstrap';
@@ -15,8 +16,10 @@ interface ShowEntryProps {
     initiallyPlaying?: boolean;
     note?: string;
     tracklistSrc?: string;
+    videoSrc?: string;
     tags?: string;
     onPlay?: (epsiode: string) => void;
+    onVideoPlay?: (epsiode: string) => void;
     onPause?: (epsiode: string) => void;
     onExpand?: (id: string) => void;
     setAudioRef: (audioRef: HTMLAudioElement | null | undefined, episode: string) => void;
@@ -42,15 +45,15 @@ const style = {
 };
 
 export const ShowEntry = (props: ShowEntryProps) => {
-    const {direction, title, audioSrc, note, tracklistSrc, tags, initiallyPlaying = false, id,
-        onPlay = () => {}, onPause = () => {}, setAudioRef, onExpand} = props;
+    const {direction, title, audioSrc, note, tracklistSrc, tags, initiallyPlaying = false, videoSrc,
+        onPlay = () => {}, onPause = () => {}, setAudioRef,} = props;
     const scroll = useRef(initiallyPlaying);
     const [click, setClick] = useState<boolean>(initiallyPlaying);
     const [error, setError] = useState(false);
     const [tracks, setTracks] = useState<track[]>([]);
     const [hasTracklist, setHasTracklist] = useState<boolean | undefined>();
     const [loading, setLoading] = useState(true);
-    console.log(id);
+    const [expand, setExpand] = useState(false);
 
     useEffect(() => {
         if (!tracklistSrc) {
@@ -116,13 +119,19 @@ export const ShowEntry = (props: ShowEntryProps) => {
                         ref={(ref) => setAudioRef(ref?.audioEl?.current, title)}
                     />
                 </Col>{
-                onExpand && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
-                    <IconButton style={{color: '#e29ef9', paddingLeft: '16px'}} onClick={() => onExpand(id)}>
+                videoSrc && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
+                    <IconButton style={{color: '#e29ef9', paddingLeft: '16px'}} onClick={() =>
+                        setExpand((isExpand) => !isExpand)}>
                         <ChevronRight />
                     </IconButton>
                 </Col>
                 }
             </Row>
+            {
+                expand && <Row className="mt-3" style={{justifyContent: 'end', height: "60vh"}}>
+                    <ReactPlayer src={videoSrc} style={{flex: 1}} height="100%" controls />
+                </Row>
+            }
             {
                 (note || tags || hasTracklist) &&
                 <div style={{justifyContent: 'center', alignItems: 'center', width: '100%'}}>
