@@ -5,7 +5,8 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
         id: '091325',
         title: 'September 13, 2025',
         tags: '#breaks #bass #garage',
-        videoUrl: 'https://www.youtube.com/watch?v=W_OhuJld1uo',
+        video: true,
+        videoOffset: 5.435,
     },
     {
         id: '081025',

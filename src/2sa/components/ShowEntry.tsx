@@ -1,5 +1,5 @@
 import Marquee from 'react-fast-marquee';
-import {memo, useEffect, useRef, useState} from 'react';
+import {memo, useEffect, useMemo, useRef, useState} from 'react';
 import {track} from "../TwoStepAuthenticationPage.tsx";
 import {int2roman} from "../../util.ts";
 import ReactAudioPlayer from "react-audio-player";
@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import { IconButton } from '@mui/material';
 import { ChevronRight } from '@mui/icons-material';
 import {Col, Row } from 'react-bootstrap';
+import {getVideoSrc} from "../utils.ts";
 
 interface ShowEntryProps {
     id: string;
@@ -16,7 +17,8 @@ interface ShowEntryProps {
     initiallyPlaying?: boolean;
     note?: string;
     tracklistSrc?: string;
-    videoSrc?: string;
+    hasVideo?: boolean;
+    videoOffset?: number;
     tags?: string;
     onPlay?: (epsiode: string) => void;
     onVideoPlay?: (epsiode: string) => void;
@@ -45,8 +47,10 @@ const style = {
 };
 
 export const ShowEntry = (props: ShowEntryProps) => {
-    const {direction, title, audioSrc, note, tracklistSrc, tags, initiallyPlaying = false, videoSrc,
-        onPlay = () => {}, onPause = () => {}, setAudioRef,} = props;
+    const {direction, title, audioSrc, note, tracklistSrc, tags, initiallyPlaying = false, hasVideo, id,
+        onPlay = () => {}, onPause = () => {}, setAudioRef} = props;
+    const videoSrc = useMemo(() => getVideoSrc(id), [id]);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const scroll = useRef(initiallyPlaying);
     const [click, setClick] = useState<boolean>(initiallyPlaying);
     const [error, setError] = useState(false);
@@ -54,6 +58,9 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const [hasTracklist, setHasTracklist] = useState<boolean | undefined>();
     const [loading, setLoading] = useState(true);
     const [expand, setExpand] = useState(false);
+    const audioRef = useRef<HTMLAudioElement | null>();
+    const [currentPosition, setCurrentPosition] = useState<number>(0);
+    const videoDuration = useRef<number>(100);
 
     useEffect(() => {
         if (!tracklistSrc) {
@@ -63,7 +70,6 @@ export const ShowEntry = (props: ShowEntryProps) => {
         const fetchTracklists = async () => {
             try {
                 const response = await fetch(tracklistSrc);
-                console.log(tracklistSrc);
                 if (response.ok) {
                     setTracks(await response.json() as track[]);
                     setHasTracklist(true);
@@ -110,16 +116,30 @@ export const ShowEntry = (props: ShowEntryProps) => {
             <MemoizedMarquee direction={direction} date={title} />
             <Row style={{alignItems: 'center'}}>
                 <Col style={style}>
-                    <ReactAudioPlayer
-                        src={audioSrc}
-                        controls
-                        style={{width: "100%", flexGrow: 1}}
-                        onPlay={() => onPlay(title)}
-                        onPause={() => onPause(title)}
-                        ref={(ref) => setAudioRef(ref?.audioEl?.current, title)}
-                    />
+                    {
+                        !hasVideo ?
+                            <ReactAudioPlayer
+                                src={audioSrc}
+                                style={{width: "100%", flexGrow: 1}}
+                                controls={true}
+                                onPlay={() => onPlay(title)}
+                                onPause={() => onPause(title)}
+                                ref={(ref) => {
+                                    setAudioRef(ref?.audioEl?.current, title);
+                                    audioRef.current = ref?.audioEl?.current;
+                                }}
+                            /> :
+                            <Row style={{height: '50px', marginLeft: "5px", marginRight: "5px", alignItems: "center"}}>
+                                <progress style={{ width: "100%"}}
+                                          //@ts-ignore I swear it's fine it's supported
+                                          value={!!currentPosition
+                                    ? currentPosition / videoDuration.current : null}></progress>
+                            </Row>
+
+                    }
+
                 </Col>{
-                videoSrc && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
+                hasVideo && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
                     <IconButton style={{color: '#e29ef9', paddingLeft: '16px'}} onClick={() =>
                         setExpand((isExpand) => !isExpand)}>
                         <ChevronRight />
@@ -128,16 +148,49 @@ export const ShowEntry = (props: ShowEntryProps) => {
                 }
             </Row>
             {
-                expand && <Row className="mt-3" style={{justifyContent: 'end', height: "60vh"}}>
-                    <ReactPlayer src={videoSrc} style={{flex: 1}} height="100%" controls />
-                </Row>
+                hasVideo &&
+                <div
+                    className="mt-4"
+                    style={{
+                        justifyContent: 'center',
+                        width: 'auto',
+                        height: 'auto',
+                        margin: '0 auto',
+                        }}
+                    hidden={(!expand && !initiallyPlaying) || (!expand && initiallyPlaying)}
+                >
+                    <ReactPlayer
+                        style={{
+                            maxHeight: "60vh",
+                            height: "auto",
+                            width: '100%',
+                            boxShadow: '0px 0px 31px 3px rgba(192,71,255,0.44)',
+                        }}
+                        ref={videoRef}
+                        controls={true}
+                        src={videoSrc}
+                        onPlay={() => onPlay(title)}
+                        onPause={() => onPause(title)}
+                        onTimeUpdate={() => {
+                            if (videoRef.current) {
+                                setCurrentPosition(videoRef.current.currentTime);
+                            }
+                        }}
+                        onLoadedData={() => {
+                            if (videoRef.current) {
+                                videoDuration.current = videoRef.current.duration;
+                            }
+                        }}
+                    >
+                    </ReactPlayer>
+                </div>
             }
             {
                 (note || tags || hasTracklist) &&
                 <div style={{justifyContent: 'center', alignItems: 'center', width: '100%'}}>
-                <p
-                    className="link-dark mt-2"
-                    style={{cursor: cursor, margin: 'auto', textAlign: 'center'}}
+                    <p
+                        className="link-dark mt-2"
+                        style={{cursor: cursor, margin: 'auto', textAlign: 'center'}}
                     onClick={() => setClick(!click)}>
                     {
                         loading && <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -157,7 +210,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                 click && <div className="mt-3">
                     {!error && tracklistSrc && !!tracks.length && tracklist}
                     {error &&
-                        <p className="text-center text-warning">an error occured while fetching tracks, try reloading the
+                        <p className="text-center text-warning">an error occurred while fetching tracks, try reloading the
                             page!</p>}
                     {note}
                     {genres}

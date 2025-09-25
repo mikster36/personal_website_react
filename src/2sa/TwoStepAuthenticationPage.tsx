@@ -191,7 +191,8 @@ function TwoStepAuthentication() {
                                         })
                                     }
                                     {
-                                        showType === ShowType.SA3 && THREE_STEP_AUTH_SHOWS.map(({id, title, note, tags, videoUrl}, i) => {
+                                        showType === ShowType.SA3 && THREE_STEP_AUTH_SHOWS.map(
+                                            ({id, title, note, tags, video, videoOffset}, i) => {
                                             const newId = `${ShowType.SA3.toLowerCase()}${id}`;
                                             return <ShowEntry
                                                 id={newId}
@@ -199,7 +200,8 @@ function TwoStepAuthentication() {
                                                 direction={i % 2 === 0 ? 'right' : 'left'}
                                                 audioSrc={getAudioSrc(newId)}
                                                 tracklistSrc={getTracklistSrc(newId)}
-                                                videoSrc={videoUrl}
+                                                hasVideo={video}
+                                                videoOffset={videoOffset}
                                                 note={note}
                                                 tags={tags}
                                                 {...getCommonProps(title)}

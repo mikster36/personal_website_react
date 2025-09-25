@@ -41,6 +41,7 @@
     "constructs": "^10.4.2",
     "esbuild": "^0.25.4",
     "eslint": "^9.32.0",
+    "eslint-define-config": "^2.1.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.12",

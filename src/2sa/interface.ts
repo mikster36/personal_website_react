@@ -3,5 +3,6 @@ export interface ShowStuff {
     id: string;
     tags?: string;
     note?: string;
-    videoUrl?: string;
+    video?: boolean;
+    videoOffset?: number;
 }
