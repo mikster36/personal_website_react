@@ -57,7 +57,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const [tracks, setTracks] = useState<track[]>([]);
     const [hasTracklist, setHasTracklist] = useState<boolean | undefined>();
     const [loading, setLoading] = useState(true);
-    const [expand, setExpand] = useState(false);
+    const [expand, setExpand] = useState(initiallyPlaying);
     const audioRef = useRef<HTMLAudioElement | null>();
     const [currentPosition, setCurrentPosition] = useState<number>(0);
     const videoDuration = useRef<number>(100);
@@ -130,16 +130,19 @@ export const ShowEntry = (props: ShowEntryProps) => {
                                 }}
                             /> :
                             <Row style={{height: '50px', marginLeft: "5px", marginRight: "5px", alignItems: "center"}}>
-                                <progress style={{ width: "100%"}}
-                                          //@ts-ignore I swear it's fine it's supported
-                                          value={!!currentPosition
-                                    ? currentPosition / videoDuration.current : null}></progress>
+                                {
+                                    !!currentPosition ? <progress style={{width: "100%"}}
+                                                                value={currentPosition / videoDuration.current}></progress>
+                                        : <div className="loading-bouncer-container">
+                                            <div className="loading-bouncer-bar" />
+                                        </div>
+                                }
                             </Row>
 
                     }
 
                 </Col>{
-                hasVideo && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
+            hasVideo && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
                     <IconButton style={{color: '#e29ef9', paddingLeft: '16px'}} onClick={() =>
                         setExpand((isExpand) => !isExpand)}>
                         <ChevronRight />
@@ -157,7 +160,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                         height: 'auto',
                         margin: '0 auto',
                         }}
-                    hidden={(!expand && !initiallyPlaying) || (!expand && initiallyPlaying)}
+                    hidden={!expand}
                 >
                     <ReactPlayer
                         style={{
