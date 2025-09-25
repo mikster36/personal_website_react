@@ -1,5 +1,5 @@
 import Marquee from 'react-fast-marquee';
-import {memo, useEffect, useMemo, useRef, useState} from 'react';
+import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {track} from "../TwoStepAuthenticationPage.tsx";
 import {int2roman} from "../../util.ts";
 import ReactAudioPlayer from "react-audio-player";
@@ -58,9 +58,25 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const [hasTracklist, setHasTracklist] = useState<boolean | undefined>();
     const [loading, setLoading] = useState(true);
     const [expand, setExpand] = useState(initiallyPlaying);
+    const [progressValue, setProgressValue] = useState(0);
     const audioRef = useRef<HTMLAudioElement | null>();
-    const [currentPosition, setCurrentPosition] = useState<number>(0);
+    const currentPosition = useRef<number>(0);
     const videoDuration = useRef<number>(100);
+    const [videoVolume, setVideoVolume] = useState(1);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setProgressValue(currentPosition.current / videoDuration.current);
+        }, 300);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+
+        }, 300);
+    }, []);
 
     useEffect(() => {
         if (!tracklistSrc) {
@@ -105,6 +121,14 @@ export const ShowEntry = (props: ShowEntryProps) => {
         }
     </>
 
+    const handlePlay = useCallback(() => {
+        onPlay(title);
+    }, [title]);
+
+    const handlePause = useCallback(() => {
+        onPause(title);
+    }, [title]);
+
     return (
         <div className="row mt-3" ref={(ref) => {
             if (scroll.current) {
@@ -122,9 +146,9 @@ export const ShowEntry = (props: ShowEntryProps) => {
                                 src={audioSrc}
                                 style={{width: "100%", flexGrow: 1}}
                                 controls={true}
-                                onPlay={() => onPlay(title)}
-                                onPause={() => onPause(title)}
-                                ref={(ref) => {
+                                onPlay={handlePlay}
+                                onPause={handlePause}
+                                ref={(ref: ReactAudioPlayer) => {
                                     setAudioRef(ref?.audioEl?.current, title);
                                     audioRef.current = ref?.audioEl?.current;
                                 }}
@@ -132,7 +156,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                             <Row style={{height: '50px', marginLeft: "5px", marginRight: "5px", alignItems: "center"}}>
                                 {
                                     !!currentPosition ? <progress style={{width: "100%"}}
-                                                                value={currentPosition / videoDuration.current}></progress>
+                                                                value={progressValue}></progress>
                                         : <div className="loading-bouncer-container">
                                             <div className="loading-bouncer-bar" />
                                         </div>
@@ -172,11 +196,15 @@ export const ShowEntry = (props: ShowEntryProps) => {
                         ref={videoRef}
                         controls={true}
                         src={videoSrc}
-                        onPlay={() => onPlay(title)}
-                        onPause={() => onPause(title)}
+                        onPlay={handlePlay}
+                        onPause={handlePause}
+                        volume={videoVolume}
+                        onVolumeChange={(e) => {
+                            setVideoVolume(e.currentTarget.volume);
+                        }}
                         onTimeUpdate={() => {
                             if (videoRef.current) {
-                                setCurrentPosition(videoRef.current.currentTime);
+                                currentPosition.current = videoRef.current.currentTime;
                             }
                         }}
                         onLoadedData={() => {
