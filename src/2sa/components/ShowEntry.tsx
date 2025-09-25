@@ -129,6 +129,8 @@ export const ShowEntry = (props: ShowEntryProps) => {
         onPause(title);
     }, [title]);
 
+    console.log(currentPosition);
+
     return (
         <div className="row mt-3" ref={(ref) => {
             if (scroll.current) {
@@ -155,7 +157,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                             /> :
                             <Row style={{height: '50px', marginLeft: "5px", marginRight: "5px", alignItems: "center"}}>
                                 {
-                                    !!currentPosition ? <progress style={{width: "100%"}}
+                                    !!currentPosition.current ? <progress style={{width: "100%"}}
                                                                 value={progressValue}></progress>
                                         : <div className="loading-bouncer-container">
                                             <div className="loading-bouncer-bar" />
