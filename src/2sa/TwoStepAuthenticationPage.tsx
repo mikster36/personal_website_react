@@ -130,7 +130,7 @@ function TwoStepAuthentication() {
                 <title>
                     {
                         `${showType === ShowType.SA2 ? 'Two' : 'Three'}
-                         Step Authentication${currentEpisode !== null ? ` — ${currentEpisode}` : ''}`
+                         Step Authentication${!!currentEpisode.current ? ` — ${currentEpisode.current}` : ''}`
                     }
                 </title>
             </Helmet>
