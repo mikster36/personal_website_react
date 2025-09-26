@@ -6,7 +6,6 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
         title: 'September 13, 2025',
         tags: '#breaks #bass #garage',
         video: true,
-        videoOffset: 5.435,
     },
     {
         id: '081025',

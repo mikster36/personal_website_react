@@ -18,7 +18,6 @@ interface ShowEntryProps {
     note?: string;
     tracklistSrc?: string;
     hasVideo?: boolean;
-    videoOffset?: number;
     tags?: string;
     onPlay?: (epsiode: string) => void;
     onVideoPlay?: (epsiode: string) => void;
@@ -59,23 +58,19 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const [loading, setLoading] = useState(true);
     const [expand, setExpand] = useState(initiallyPlaying);
     const [progressValue, setProgressValue] = useState(0);
-    const audioRef = useRef<HTMLAudioElement | null>();
     const currentPosition = useRef<number>(0);
     const videoDuration = useRef<number>(100);
     const [videoVolume, setVideoVolume] = useState(1);
 
     useEffect(() => {
+        if (!hasVideo) {
+            return;
+        }
         const intervalId = setInterval(() => {
             setProgressValue(currentPosition.current / videoDuration.current);
         }, 300);
 
         return () => clearInterval(intervalId);
-    }, []);
-
-    useEffect(() => {
-        setTimeout(() => {
-
-        }, 300);
     }, []);
 
     useEffect(() => {
@@ -129,8 +124,6 @@ export const ShowEntry = (props: ShowEntryProps) => {
         onPause(title);
     }, [title]);
 
-    console.log(currentPosition);
-
     return (
         <div className="row mt-3" ref={(ref) => {
             if (scroll.current) {
@@ -150,10 +143,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                                 controls={true}
                                 onPlay={handlePlay}
                                 onPause={handlePause}
-                                ref={(ref: ReactAudioPlayer) => {
-                                    setAudioRef(ref?.audioEl?.current, title);
-                                    audioRef.current = ref?.audioEl?.current;
-                                }}
+                                ref={(ref) => setAudioRef(ref?.audioEl?.current, title)}
                             /> :
                             <Row style={{height: '50px', marginLeft: "5px", marginRight: "5px", alignItems: "center"}}>
                                 {

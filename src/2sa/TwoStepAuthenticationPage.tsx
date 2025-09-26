@@ -22,26 +22,28 @@ function TwoStepAuthentication() {
         [ShowType.SA2, ShowType.SA3].includes(searchParams.get('which') as ShowType)
         ? searchParams.get('which') as ShowType : ShowType.SA2);
     const audio = useRef<HTMLAudioElement>();
-    const [currentEpisode, setCurrentEpisode] = useState<string | null>(searchParams.get('episode'));
+    const currentEpisode= useRef<string | null>(searchParams.get('episode'));
 
     useEffect(() => {
         const urlEpisode = searchParams.get('episode');
         if (urlEpisode) {
-            setCurrentEpisode(urlEpisode);
+            currentEpisode.current = urlEpisode;
         }
     }, []);
     
     const setAudioRef = (audioRef: HTMLAudioElement | null | undefined, episode: string) => {
-        if (episode === currentEpisode && audioRef) {
+        if (episode === currentEpisode.current && audioRef) {
             audio.current = audioRef;
         }
     }
 
     const handlePlay = (episode: string) => {
-        if (currentEpisode && episode !== currentEpisode) {
+        if (currentEpisode.current && episode !== currentEpisode.current) {
+            console.log(episode);
+            console.log(currentEpisode);
             audio.current?.pause();
         }
-        setCurrentEpisode(episode);
+        currentEpisode.current = episode;
         setSearchParams((prev) => {
             const newParams = new URLSearchParams(prev);
             newParams.set('episode', episode);
@@ -192,7 +194,7 @@ function TwoStepAuthentication() {
                                     }
                                     {
                                         showType === ShowType.SA3 && THREE_STEP_AUTH_SHOWS.map(
-                                            ({id, title, note, tags, video, videoOffset}, i) => {
+                                            ({id, title, note, tags, video}, i) => {
                                             const newId = `${ShowType.SA3.toLowerCase()}${id}`;
                                             return <ShowEntry
                                                 id={newId}
@@ -201,7 +203,6 @@ function TwoStepAuthentication() {
                                                 audioSrc={getAudioSrc(newId)}
                                                 tracklistSrc={getTracklistSrc(newId)}
                                                 hasVideo={video}
-                                                videoOffset={videoOffset}
                                                 note={note}
                                                 tags={tags}
                                                 {...getCommonProps(title)}

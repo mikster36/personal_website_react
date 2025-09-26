@@ -4,5 +4,4 @@ export interface ShowStuff {
     tags?: string;
     note?: string;
     video?: boolean;
-    videoOffset?: number;
 }
