@@ -3,7 +3,7 @@ import ShowEntry from "./components/ShowEntry.tsx";
 import {useEffect, useMemo, useRef, useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {TWO_STEP_AUTH_SHOWS} from "./data/2sa_shows.ts";
-import {getAudioSrc, getTracklistSrc} from "./utils.ts";
+import {getAudioSrc, getSomeRandomGenres, getTracklistSrc} from "./utils.ts";
 import {THREE_STEP_AUTH_SHOWS} from "./data/3sa_shows.ts";
 
 export interface track {
@@ -23,6 +23,27 @@ function TwoStepAuthentication() {
         ? searchParams.get('which') as ShowType : ShowType.SA2);
     const audio = useRef<HTMLAudioElement>();
     const currentEpisode= useRef<string | null>(searchParams.get('episode'));
+    const [randomGenres, setRandomGenres] = useState<string[]>(
+        // 5 - 8 genres
+        getSomeRandomGenres(Math.floor(Math.random() * 4) + 5)
+    );
+    const [someNumber, setSomeNumber] = useState<number>(0);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setSomeNumber((prev) => (prev + 1) % 3);
+        }, 2000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setRandomGenres(getSomeRandomGenres(Math.floor(Math.random() * 4) + 5));
+        }, 6000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     useEffect(() => {
         const urlEpisode = searchParams.get('episode');
@@ -223,17 +244,28 @@ function TwoStepAuthentication() {
                                             <p className="text-end">
                                                 the name is taken from the multi-factor authentication you probably
                                                 use for several apps, but more importantly it's an ode to swami sound's
-                                                show on <a className="link-dark"
+                                                show on <a className="link-dark" style={{textDecoration: 'underline'}}
                                                     href={"https://www.dublab.com/archive/swami-sound-two-step-verification-01-22-23"}>
-                                                dublab</a>.
+                                                dublab</a>. it's music i like, music to dance, or whatever
                                             </p>
                                             <p className="text-start">
-                                                on 2sa, you'll hear speed garage, baile funk, jersey club, trance,
-                                                breaks, jungle,
-                                                and everything in between.
+                                                on 2sa, you <a style={{fontStyle: 'italic'}}>might</a> hear (for example){' '}
+                                                {
+                                                    randomGenres.map((genre, i) => {
+                                                        return <a style={{
+                                                            textEmphasis: 'filled double-circle #ffb703',
+                                                            fontStyle: i % 2 === 0 ? 'italic' : undefined,
+                                                            fontWeight: i % 3 === someNumber ? 'bold' : undefined,
+                                                        }}>
+                                                            {`${genre}${i === randomGenres.length - 1 ? '' : ', '}`}
+                                                        </a>;
+                                                    })
+                                                }
+
+                                                {' '}and anything in between or beyond.
                                             </p>
                                             <p className="text-end">
-                                                if it makes me move, i'll play it :)
+                                                contact: michaelrortega[at]pm(dot)me
                                             </p>
                                         </div>
                                     </div>
