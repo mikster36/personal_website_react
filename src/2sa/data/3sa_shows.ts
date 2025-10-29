@@ -5,8 +5,7 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
         id: '101225',
         title: 'October 12, 2025',
         tags: '#breaks #uk-bass #garage',
-        note: "the tracklist is just my last 20 or so songs on bandcamp but i'll put upload the real thing eventually "
-        + "i guess"
+        note: "Sometimes you just gotta play whatever and that's fine!"
     },
     {
         id: '091325',
