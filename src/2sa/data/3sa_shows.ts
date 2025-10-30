@@ -4,13 +4,13 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
         id: '101225',
         title: 'October 12, 2025',
-        tags: '#breaks #uk-bass #garage',
+        tags: '#uk-bass #breaks',
         note: "Sometimes you just gotta play whatever and that's fine!"
     },
     {
         id: '091325',
         title: 'September 13, 2025',
-        tags: '#breaks #bass #garage',
+        tags: '#breaks #uk-bass #garage',
         video: true,
     },
     {
