@@ -2,6 +2,11 @@ import {ShowStuff} from "../interface.ts";
 
 export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
+        id: '110225',
+        title: 'November 2, 2025',
+        tags: '#uk-bass #breaks #garage',
+    },
+    {
         id: '101225',
         title: 'October 12, 2025',
         tags: '#uk-bass #breaks',
