@@ -5,6 +5,7 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
         id: '110225',
         title: 'November 2, 2025',
         tags: '#uk-bass #breaks #garage',
+        note: "Track one didn't have key lock on..."
     },
     {
         id: '101225',
