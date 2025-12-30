@@ -4,4 +4,6 @@ export interface ShowStuff {
     tags?: string;
     note?: string;
     video?: boolean;
+    image?: string;
+    imageAlt?: string;
 }

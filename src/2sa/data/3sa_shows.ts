@@ -2,6 +2,15 @@ import {ShowStuff} from "../interface.ts";
 
 export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
+        id: '112325',
+        title: 'November 23, 2025',
+        tags: '#breaks #uk-bass',
+        note: "I ran this one as a warm up for the upcoming set I had at Zuzu. It's pretty messy " +
+        "and there's no tracklist, but there's some good tracks here. Shout out breaks.",
+        image: "dode17.png",
+        imageAlt: "Dance or Don't poster 12-10-25."
+    },
+    {
         id: '110225',
         title: 'November 2, 2025',
         tags: '#uk-bass #breaks #garage',

@@ -17,6 +17,8 @@ interface ShowEntryProps {
     initiallyPlaying?: boolean;
     note?: string;
     tracklistSrc?: string;
+    imgSrc?: string;
+    imgAlt?: string;
     hasVideo?: boolean;
     tags?: string;
     onPlay?: (epsiode: string) => void;
@@ -209,7 +211,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                 </div>
             }
             {
-                (note || tags || hasTracklist) &&
+                (note || tags || hasTracklist || props.imgSrc) &&
                 <div style={{justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                     <p
                         className="link-dark mt-2"
@@ -230,12 +232,24 @@ export const ShowEntry = (props: ShowEntryProps) => {
                 </div>
             }
             {
-                click && <div className="mt-3">
-                    {!error && tracklistSrc && !!tracks.length && tracklist}
+                click && <div className="mt-3 col-sm">
+                    {!error && tracklistSrc && !!tracks.length &&
+                        <div className="row">
+                            {tracklist}
+                        </div>
+                    }
                     {error &&
                         <p className="text-center text-warning">an error occurred while fetching tracks, try reloading the
                             page!</p>}
                     {note}
+                    {
+                        props.imgSrc && <img
+                            src={props.imgSrc}
+                            className="mt-3 row"
+                            width="50%"
+                            alt={props.imgAlt}
+                        />
+                    }
                     {genres}
                 </div>
             }

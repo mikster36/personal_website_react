@@ -5,6 +5,7 @@ import {Helmet} from "react-helmet-async";
 import {TWO_STEP_AUTH_SHOWS} from "./data/2sa_shows.ts";
 import {getAudioSrc, getSomeRandomGenres, getTracklistSrc} from "./utils.ts";
 import {THREE_STEP_AUTH_SHOWS} from "./data/3sa_shows.ts";
+import {IMAGE_PATH} from "./constants.ts";
 
 export interface track {
     song: string;
@@ -215,7 +216,7 @@ function TwoStepAuthentication() {
                                     }
                                     {
                                         showType === ShowType.SA3 && THREE_STEP_AUTH_SHOWS.map(
-                                            ({id, title, note, tags, video}, i) => {
+                                            ({id, title, note, tags, video, image, imageAlt}, i) => {
                                             const newId = `${ShowType.SA3.toLowerCase()}${id}`;
                                             return <ShowEntry
                                                 id={newId}
@@ -223,6 +224,8 @@ function TwoStepAuthentication() {
                                                 direction={i % 2 === 0 ? 'right' : 'left'}
                                                 audioSrc={getAudioSrc(newId)}
                                                 tracklistSrc={getTracklistSrc(newId)}
+                                                {...(image && {imgSrc: `${IMAGE_PATH}/${image}`} )}
+                                                imgAlt={imageAlt}
                                                 hasVideo={video}
                                                 note={note}
                                                 tags={tags}
