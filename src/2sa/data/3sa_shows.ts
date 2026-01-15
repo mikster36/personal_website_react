@@ -2,6 +2,15 @@ import {ShowStuff} from "../interface.ts";
 
 export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
+        id: '010726',
+        title: 'January 7, 2026',
+        tags: '#garage, #2-step',
+        note: "Another warm up set, this time for Garage Sale. Tracklist is somewhere on my computer; I'll get to it." +
+        " Mind the random scratching.",
+        image: "gs011026.jpg",
+        imageAlt: "Garage Sale poster 01-10-26."
+    },
+    {
         id: '112325',
         title: 'November 23, 2025',
         tags: '#breaks #uk-bass',

@@ -242,14 +242,16 @@ export const ShowEntry = (props: ShowEntryProps) => {
                         <p className="text-center text-warning">an error occurred while fetching tracks, try reloading the
                             page!</p>}
                     {note}
-                    {
-                        props.imgSrc && <img
-                            src={props.imgSrc}
-                            className="mt-3 row"
-                            width="50%"
-                            alt={props.imgAlt}
-                        />
-                    }
+                    {props.imgSrc && (
+                        <div className="d-flex justify-content-center">
+                            <img
+                                src={props.imgSrc}
+                                className="mt-3"
+                                width="50%"
+                                alt={props.imgAlt}
+                            />
+                        </div>
+                    )}
                     {genres}
                 </div>
             }
