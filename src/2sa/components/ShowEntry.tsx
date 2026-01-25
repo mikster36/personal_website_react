@@ -1,13 +1,13 @@
 import Marquee from 'react-fast-marquee';
-import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {track} from "../TwoStepAuthenticationPage.tsx";
-import {int2roman} from "../../util.ts";
-import ReactAudioPlayer from "react-audio-player";
-import ReactPlayer from "react-player";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { track } from '../TwoStepAuthenticationPage.tsx';
+import { int2roman } from '../../util.ts';
+import ReactAudioPlayer from 'react-audio-player';
+import ReactPlayer from 'react-player';
 import { IconButton } from '@mui/material';
 import { ChevronRight } from '@mui/icons-material';
-import {Col, Row } from 'react-bootstrap';
-import {getVideoSrc} from "../utils.ts";
+import { Col, Row } from 'react-bootstrap';
+import { getVideoSrc } from '../utils.ts';
 
 interface ShowEntryProps {
     id: string;
@@ -28,28 +28,48 @@ interface ShowEntryProps {
     setAudioRef: (audioRef: HTMLAudioElement | null | undefined, episode: string) => void;
 }
 
-const MemoizedMarquee = memo(({direction, date} : {direction: 'left' | 'right', date: string}) => {
-    const speed = 30 + Math.random() * 10;
-    return (
-        <Marquee pauseOnClick direction={direction} autoFill={true} speed={speed} className="font-monospace my-2">
-            {` ${date}`}‎ | ‎
-        </Marquee>
-    );
-});
+const MemoizedMarquee = memo(
+    ({ direction, date }: { direction: 'left' | 'right'; date: string }) => {
+        const speed = 30 + Math.random() * 10;
+        return (
+            <Marquee
+                pauseOnClick
+                direction={direction}
+                autoFill={true}
+                speed={speed}
+                className="font-monospace my-2"
+            >
+                {` ${date}`}‎ | ‎
+            </Marquee>
+        );
+    },
+);
 
 const style = {
     boxShadow: 'none',
     outline: 'none',
-    backgroundColor:'#f1f3f4',
+    backgroundColor: '#f1f3f4',
     width: '100%',
     borderWidth: '2',
     borderColor: '#e29ef9',
-    borderStyle: 'solid'
+    borderStyle: 'solid',
 };
 
 export const ShowEntry = (props: ShowEntryProps) => {
-    const {direction, title, audioSrc, note, tracklistSrc, tags, initiallyPlaying = false, hasVideo, id,
-        onPlay = () => {}, onPause = () => {}, setAudioRef} = props;
+    const {
+        direction,
+        title,
+        audioSrc,
+        note,
+        tracklistSrc,
+        tags,
+        initiallyPlaying = false,
+        hasVideo,
+        id,
+        onPlay = () => {},
+        onPause = () => {},
+        setAudioRef,
+    } = props;
     const videoSrc = useMemo(() => getVideoSrc(id), [id]);
     const videoRef = useRef<HTMLVideoElement>(null);
     const scroll = useRef(initiallyPlaying);
@@ -84,12 +104,11 @@ export const ShowEntry = (props: ShowEntryProps) => {
             try {
                 const response = await fetch(tracklistSrc);
                 if (response.ok) {
-                    setTracks(await response.json() as track[]);
+                    setTracks((await response.json()) as track[]);
                     setHasTracklist(true);
                 } else if (response.status === 403) {
                     setHasTracklist(false);
-                }
-                else {
+                } else {
                     setError(true);
                 }
             } catch (_) {
@@ -104,19 +123,25 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const cursorOptions = ['zoom-in', 'pointer', 'crosshair', 'help', 'grab', 'grabbing'];
     const cursor = cursorOptions[Math.floor(Math.random() * 6)];
 
-    const tracklist = <>
-        {Object.entries(tracks).map(([, _track], i) => (
-            <p key={i}>
-                {int2roman(i + 1)}. {_track.song} {'>>'} {_track.artist}
-            </p>
-        ))}
-    </>
+    const tracklist = (
+        <>
+            {Object.entries(tracks).map(([, _track], i) => (
+                <p key={i}>
+                    {int2roman(i + 1)}. {_track.song} {'>>'} {_track.artist}
+                </p>
+            ))}
+        </>
+    );
 
-    const genres = <>
-        {
-            tags && <p className={"mt-2 text-lg-end"}>genres: <em>{tags}</em></p>
-        }
-    </>
+    const genres = (
+        <>
+            {tags && (
+                <p className={'mt-2 text-lg-end'}>
+                    genres: <em>{tags}</em>
+                </p>
+            )}
+        </>
+    );
 
     const handlePlay = useCallback(() => {
         onPlay(title);
@@ -127,49 +152,62 @@ export const ShowEntry = (props: ShowEntryProps) => {
     }, [title]);
 
     return (
-        <div className="row mt-3" ref={(ref) => {
-            if (scroll.current) {
-                console.log(ref);
-                ref?.scrollIntoView();
-                scroll.current = false;
-            }
-        }}>
-            <MemoizedMarquee direction={direction} date={title} />
-            <Row style={{alignItems: 'center'}}>
-                <Col style={style}>
-                    {
-                        !hasVideo ?
-                            <ReactAudioPlayer
-                                src={audioSrc}
-                                style={{width: "100%", flexGrow: 1}}
-                                controls={true}
-                                onPlay={handlePlay}
-                                onPause={handlePause}
-                                ref={(ref) => setAudioRef(ref?.audioEl?.current, title)}
-                            /> :
-                            <Row style={{height: '50px', marginLeft: "5px", marginRight: "5px", alignItems: "center"}}>
-                                {
-                                    !!currentPosition.current ? <progress style={{width: "100%"}}
-                                                                value={progressValue}></progress>
-                                        : <div className="loading-bouncer-container">
-                                            <div className="loading-bouncer-bar" />
-                                        </div>
-                                }
-                            </Row>
-
-                    }
-
-                </Col>{
-            hasVideo && <Col style={{maxWidth: "1%", ...style, borderLeft: 'none'}}>
-                    <IconButton style={{color: '#e29ef9', paddingLeft: '16px'}} onClick={() =>
-                        setExpand((isExpand) => !isExpand)}>
-                        <ChevronRight />
-                    </IconButton>
-                </Col>
+        <div
+            className="row mt-3"
+            ref={(ref) => {
+                if (scroll.current) {
+                    console.log(ref);
+                    ref?.scrollIntoView();
+                    scroll.current = false;
                 }
+            }}
+        >
+            <MemoizedMarquee direction={direction} date={title} />
+            <Row style={{ alignItems: 'center' }}>
+                <Col style={style}>
+                    {!hasVideo ? (
+                        <ReactAudioPlayer
+                            src={audioSrc}
+                            style={{ width: '100%', flexGrow: 1 }}
+                            controls={true}
+                            onPlay={handlePlay}
+                            onPause={handlePause}
+                            ref={(ref) => setAudioRef(ref?.audioEl?.current, title)}
+                        />
+                    ) : (
+                        <Row
+                            style={{
+                                height: '50px',
+                                marginLeft: '5px',
+                                marginRight: '5px',
+                                alignItems: 'center',
+                            }}
+                        >
+                            {!!currentPosition.current ? (
+                                <progress
+                                    style={{ width: '100%' }}
+                                    value={progressValue}
+                                ></progress>
+                            ) : (
+                                <div className="loading-bouncer-container">
+                                    <div className="loading-bouncer-bar" />
+                                </div>
+                            )}
+                        </Row>
+                    )}
+                </Col>
+                {hasVideo && (
+                    <Col style={{ maxWidth: '1%', ...style, borderLeft: 'none' }}>
+                        <IconButton
+                            style={{ color: '#e29ef9', paddingLeft: '16px' }}
+                            onClick={() => setExpand((isExpand) => !isExpand)}
+                        >
+                            <ChevronRight />
+                        </IconButton>
+                    </Col>
+                )}
             </Row>
-            {
-                hasVideo &&
+            {hasVideo && (
                 <div
                     className="mt-4"
                     style={{
@@ -177,13 +215,13 @@ export const ShowEntry = (props: ShowEntryProps) => {
                         width: 'auto',
                         height: 'auto',
                         margin: '0 auto',
-                        }}
+                    }}
                     hidden={!expand}
                 >
                     <ReactPlayer
                         style={{
-                            maxHeight: "60vh",
-                            height: "auto",
+                            maxHeight: '60vh',
+                            height: 'auto',
                             width: '100%',
                             boxShadow: '0px 0px 31px 3px rgba(192,71,255,0.44)',
                         }}
@@ -206,41 +244,36 @@ export const ShowEntry = (props: ShowEntryProps) => {
                                 videoDuration.current = videoRef.current.duration;
                             }
                         }}
-                    >
-                    </ReactPlayer>
+                    ></ReactPlayer>
                 </div>
-            }
-            {
-                (note || tags || hasTracklist || props.imgSrc) &&
-                <div style={{justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+            )}
+            {(note || tags || hasTracklist || props.imgSrc) && (
+                <div style={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <p
                         className="link-dark mt-2"
-                        style={{cursor: cursor, margin: 'auto', textAlign: 'center'}}
-                    onClick={() => setClick(!click)}>
-                    {
-                        loading && <div style={{display: 'flex', justifyContent: 'center'}}>
-                            ‎
-                        </div>
-                    }
-                    {
-                        !loading && (
-                            hasTracklist ? 'tracklist' :
-                            `${tags?.length ? 'tags ' : ''}${tags?.length && note?.length ? '+' : ''}${note?.length ? ' note' : ''}`.trim()
-                        )
-                    }
-                </p>
+                        style={{ cursor: cursor, margin: 'auto', textAlign: 'center' }}
+                        onClick={() => setClick(!click)}
+                    >
+                        {loading && (
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>‎</div>
+                        )}
+                        {!loading &&
+                            (hasTracklist
+                                ? 'tracklist'
+                                : `${tags?.length ? 'tags ' : ''}${tags?.length && note?.length ? '+' : ''}${note?.length ? ' note' : ''}`.trim())}
+                    </p>
                 </div>
-            }
-            {
-                click && <div className="mt-3 col-sm">
-                    {!error && tracklistSrc && !!tracks.length &&
-                        <div className="row">
-                            {tracklist}
-                        </div>
-                    }
-                    {error &&
-                        <p className="text-center text-warning">an error occurred while fetching tracks, try reloading the
-                            page!</p>}
+            )}
+            {click && (
+                <div className="mt-3 col-sm">
+                    {!error && tracklistSrc && !!tracks.length && (
+                        <div className="row">{tracklist}</div>
+                    )}
+                    {error && (
+                        <p className="text-center text-warning">
+                            an error occurred while fetching tracks, try reloading the page!
+                        </p>
+                    )}
                     {note}
                     {props.imgSrc && (
                         <div className="d-flex justify-content-center">
@@ -254,9 +287,9 @@ export const ShowEntry = (props: ShowEntryProps) => {
                     )}
                     {genres}
                 </div>
-            }
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default ShowEntry;
