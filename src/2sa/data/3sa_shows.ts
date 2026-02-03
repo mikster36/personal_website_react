@@ -1,4 +1,4 @@
-import {ShowStuff} from "../interface.ts";
+import { ShowStuff } from '../interface.ts';
 
 export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
@@ -16,31 +16,33 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
         id: '010726',
         title: 'January 7, 2026',
         tags: '#garage, #2-step',
-        note: "Another warm up set, this time for Garage Sale. Tracklist is somewhere on my computer; I'll get to it." +
-        " Mind the random scratching.",
-        image: "gs011026.jpg",
-        imageAlt: "Garage Sale poster 01-10-26."
+        note:
+            "Another warm up set, this time for Garage Sale. Tracklist is somewhere on my computer; I'll get to it." +
+            ' Mind the random scratching.',
+        image: 'gs011026.jpg',
+        imageAlt: 'Garage Sale poster 01-10-26.',
     },
     {
         id: '112325',
         title: 'November 23, 2025',
         tags: '#breaks #uk-bass',
-        note: "I ran this one as a warm up for the upcoming set I had at Zuzu. It's pretty messy " +
-        "and there's no tracklist, but there's some good tracks here. Shout out breaks.",
-        image: "dode17.png",
-        imageAlt: "Dance or Don't poster 12-10-25."
+        note:
+            "I ran this one as a warm up for the upcoming set I had at Zuzu. It's pretty messy " +
+            "and there's no tracklist, but there's some good tracks here. Shout out breaks.",
+        image: 'dode17.png',
+        imageAlt: "Dance or Don't poster 12-10-25.",
     },
     {
         id: '110225',
         title: 'November 2, 2025',
         tags: '#uk-bass #breaks #garage',
-        note: "Track one didn't have key lock on..."
+        note: "Track one didn't have key lock on...",
     },
     {
         id: '101225',
         title: 'October 12, 2025',
         tags: '#uk-bass #breaks',
-        note: "Sometimes you just gotta play whatever and that's fine!"
+        note: "Sometimes you just gotta play whatever and that's fine!",
     },
     {
         id: '091325',
@@ -94,6 +96,6 @@ export const THREE_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
         id: '030625',
         title: 'March 6, 2025',
-        tags: '#music'
+        tags: '#music',
     },
 ];

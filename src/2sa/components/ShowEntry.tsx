@@ -7,19 +7,22 @@ import ReactPlayer from 'react-player';
 import { IconButton } from '@mui/material';
 import { ChevronRight } from '@mui/icons-material';
 import { Col, Row } from 'react-bootstrap';
+import AudioMotionAnalyzer from 'audiomotion-analyzer';
 import { getVideoSrc } from '../utils.ts';
 
-interface ShowEntryProps {
+export interface ShowEntryProps {
     id: string;
     direction: 'left' | 'right';
     title: string;
     audioSrc: string;
+    isPlaying: boolean;
     initiallyPlaying?: boolean;
     note?: string;
     tracklistSrc?: string;
     imgSrc?: string;
     imgAlt?: string;
     hasVideo?: boolean;
+    showSpectrogram?: boolean;
     tags?: string;
     onPlay?: (epsiode: string) => void;
     onVideoPlay?: (epsiode: string) => void;
@@ -66,6 +69,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
         initiallyPlaying = false,
         hasVideo,
         id,
+        showSpectrogram,
         onPlay = () => {},
         onPause = () => {},
         setAudioRef,
@@ -83,6 +87,30 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const currentPosition = useRef<number>(0);
     const videoDuration = useRef<number>(100);
     const [videoVolume, setVideoVolume] = useState(1);
+    const spectrumAnalyzerRef = useRef<AudioMotionAnalyzer | null>(null);
+    const audioElementRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        if (!showSpectrogram) return;
+        if (!audioElementRef.current) return;
+        if (spectrumAnalyzerRef.current) return;
+
+        const containerEl = document.getElementById(`spectrum-analyser-${id}`);
+        if (!containerEl) return;
+
+        spectrumAnalyzerRef.current = new AudioMotionAnalyzer(containerEl, {
+            showPeaks: true,
+            fadePeaks: true,
+            showScaleX: false,
+            colorMode: 'bar-level',
+            source: audioElementRef.current,
+        });
+
+        const canvas = containerEl.querySelector('canvas') as HTMLCanvasElement;
+        if (canvas) {
+            canvas.style.backgroundColor = '#f1f3f4';
+        }
+    }, [showSpectrogram, id]);
 
     useEffect(() => {
         if (!hasVideo) {
@@ -144,10 +172,12 @@ export const ShowEntry = (props: ShowEntryProps) => {
     );
 
     const handlePlay = useCallback(() => {
+        spectrumAnalyzerRef.current?.start();
         onPlay(title);
     }, [title]);
 
     const handlePause = useCallback(() => {
+        spectrumAnalyzerRef.current?.stop();
         onPause(title);
     }, [title]);
 
@@ -156,7 +186,6 @@ export const ShowEntry = (props: ShowEntryProps) => {
             className="row mt-3"
             ref={(ref) => {
                 if (scroll.current) {
-                    console.log(ref);
                     ref?.scrollIntoView();
                     scroll.current = false;
                 }
@@ -166,14 +195,33 @@ export const ShowEntry = (props: ShowEntryProps) => {
             <Row style={{ alignItems: 'center' }}>
                 <Col style={style}>
                     {!hasVideo ? (
-                        <ReactAudioPlayer
-                            src={audioSrc}
-                            style={{ width: '100%', flexGrow: 1 }}
-                            controls={true}
-                            onPlay={handlePlay}
-                            onPause={handlePause}
-                            ref={(ref) => setAudioRef(ref?.audioEl?.current, title)}
-                        />
+                        <>
+                            <ReactAudioPlayer
+                                id={`audio-player-${id}`}
+                                src={audioSrc}
+                                style={{ width: '100%', flexGrow: 1 }}
+                                controls={true}
+                                onPlay={handlePlay}
+                                onPause={handlePause}
+                                ref={(ref) => {
+                                    audioElementRef.current = ref?.audioEl?.current ?? null;
+                                    setAudioRef(ref?.audioEl?.current, title);
+                                }}
+                            />
+                            <div
+                                key={`spectrum-analyser-${id}`}
+                                id={`spectrum-analyser-${id}`}
+                                style={{
+                                    width: '100%',
+                                    height: '150px',
+                                    marginBottom: '12px',
+                                    color: '#f1f3f4',
+                                    background: '#f1f3f4',
+                                    backgroundColor: '#f1f3f4',
+                                }}
+                                hidden={!showSpectrogram}
+                            ></div>
+                        </>
                     ) : (
                         <Row
                             style={{
