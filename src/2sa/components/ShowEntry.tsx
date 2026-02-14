@@ -105,11 +105,6 @@ export const ShowEntry = (props: ShowEntryProps) => {
             colorMode: 'bar-level',
             source: audioElementRef.current,
         });
-
-        const canvas = containerEl.querySelector('canvas') as HTMLCanvasElement;
-        if (canvas) {
-            canvas.style.backgroundColor = '#f1f3f4';
-        }
     }, [showSpectrogram, id]);
 
     useEffect(() => {
@@ -231,7 +226,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                                 alignItems: 'center',
                             }}
                         >
-                            {!!currentPosition.current ? (
+                            {currentPosition.current ? (
                                 <progress
                                     style={{ width: '100%' }}
                                     value={progressValue}
