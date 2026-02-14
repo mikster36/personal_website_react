@@ -89,23 +89,22 @@ export const ShowEntry = (props: ShowEntryProps) => {
     const [videoVolume, setVideoVolume] = useState(1);
     const spectrumAnalyzerRef = useRef<AudioMotionAnalyzer | null>(null);
     const audioElementRef = useRef<HTMLAudioElement | null>(null);
+    const canvasContainerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (!showSpectrogram) return;
         if (!audioElementRef.current) return;
+        if (!canvasContainerRef.current) return;
         if (spectrumAnalyzerRef.current) return;
 
-        const containerEl = document.getElementById(`spectrum-analyser-${id}`);
-        if (!containerEl) return;
-
-        spectrumAnalyzerRef.current = new AudioMotionAnalyzer(containerEl, {
+        spectrumAnalyzerRef.current = new AudioMotionAnalyzer(canvasContainerRef.current, {
             showPeaks: true,
             fadePeaks: true,
             showScaleX: false,
             colorMode: 'bar-level',
             source: audioElementRef.current,
         });
-    }, [showSpectrogram, id]);
+    }, [showSpectrogram, id, canvasContainerRef.current, audioElementRef.current]);
 
     useEffect(() => {
         if (!hasVideo) {
@@ -206,6 +205,7 @@ export const ShowEntry = (props: ShowEntryProps) => {
                             <div
                                 key={`spectrum-analyser-${id}`}
                                 id={`spectrum-analyser-${id}`}
+                                ref={canvasContainerRef}
                                 style={{
                                     width: '100%',
                                     height: '150px',
