@@ -7,18 +7,19 @@ export const int2roman = (original: number): string => {
         ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix'],
         ['x', 'xx', 'xxx', 'xl', 'l', 'lx', 'lxx', 'lxxx', 'xc'],
         ['c', 'cc', 'ccc', 'cd', 'd', 'dc', 'dcc', 'dccc', 'cm'],
-        ['m', 'mm', 'mmm']]
+        ['m', 'mm', 'mmm'],
+    ];
 
     const digits = Math.round(original).toString().split('');
-    let position = (digits.length - 1);
+    let position = digits.length - 1;
 
     return digits.reduce((roman, digit) => {
         if (digit !== '0') {
             roman += numerals[position][parseInt(digit) - 1];
         }
 
-        position -= 1
+        position -= 1;
 
         return roman;
     }, '');
-}
+};

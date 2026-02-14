@@ -1,11 +1,12 @@
-import {ShowStuff} from "../interface.ts";
+import { ShowStuff } from '../interface.ts';
 
 export const TWO_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
         id: '020725',
         title: 'February 7, 2025',
-        note: "Don't have a set list for this one unfortunately! But, the first " +
-            "40 minutes is mostly OSSX and DJ Swisha.",
+        note:
+            "Don't have a set list for this one unfortunately! But, the first " +
+            '40 minutes is mostly OSSX and DJ Swisha.',
         tags: '#club #baltimore-club #breaks #garage',
     },
     {
@@ -56,7 +57,7 @@ export const TWO_STEP_AUTH_SHOWS: ShowStuff[] = [
     {
         id: '092724',
         title: 'September 27, 2024',
-        tags: '#speed-garage #jersey-club #jungle #breakcore'
+        tags: '#speed-garage #jersey-club #jungle #breakcore',
     },
     {
         id: '092024',

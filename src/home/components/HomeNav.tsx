@@ -9,8 +9,12 @@ function HomeNav() {
                 <Navbar.Toggle aria-controls="navmenu" />
                 <Navbar.Collapse id="navmenu">
                     <Nav className="ms-auto">
-                        <Nav.Link as={NavLink} to="/" className="font-monospace">About Me</Nav.Link>
-                        <Nav.Link as={NavLink} to="/projects" className="font-monospace">Projects</Nav.Link>
+                        <Nav.Link as={NavLink} to="/" className="font-monospace">
+                            About Me
+                        </Nav.Link>
+                        <Nav.Link as={NavLink} to="/projects" className="font-monospace">
+                            Projects
+                        </Nav.Link>
                         <Nav.Link
                             href="/home/media/Michael_Ortega_resume.pdf"
                             className="font-monospace"
