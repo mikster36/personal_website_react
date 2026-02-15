@@ -48,13 +48,21 @@ const MemoizedMarquee = memo(
     },
 );
 
+const AUDIO_BACKGROUND_COLOR = '#f1f3f4';
+const AUDIO_BORDER_COLOR = '#e29ef9';
+const AUDIO_GRADIENT_1 = '#2a3a6e';
+const AUDIO_GRADIENT_2 = '#704cb2';
+const AUDIO_GRADIENT_3 = '#c39bff';
+const AUDIO_GRADIENT_4 = '#c1b7ff';
+const AUDIO_GRADIENT_5 = '#b7c8ff';
+
 const style = {
     boxShadow: 'none',
     outline: 'none',
-    backgroundColor: '#f1f3f4',
+    backgroundColor: AUDIO_BACKGROUND_COLOR,
     width: '100%',
     borderWidth: '2',
-    borderColor: '#e29ef9',
+    borderColor: AUDIO_BORDER_COLOR,
     borderStyle: 'solid',
 };
 
@@ -103,7 +111,20 @@ export const ShowEntry = (props: ShowEntryProps) => {
             showScaleX: false,
             colorMode: 'bar-level',
             source: audioElementRef.current,
+            barSpace: 0.5,
+            bgAlpha: 0,
+            overlay: true,
         });
+        spectrumAnalyzerRef.current.registerGradient('main', {
+            colorStops: [
+                AUDIO_GRADIENT_1,
+                AUDIO_GRADIENT_2,
+                AUDIO_GRADIENT_3,
+                AUDIO_GRADIENT_4,
+                AUDIO_GRADIENT_5,
+            ],
+        });
+        spectrumAnalyzerRef.current.gradient = 'main';
     }, [showSpectrogram, id, canvasContainerRef.current, audioElementRef.current]);
 
     useEffect(() => {
@@ -209,10 +230,6 @@ export const ShowEntry = (props: ShowEntryProps) => {
                                 style={{
                                     width: '100%',
                                     height: '150px',
-                                    marginBottom: '12px',
-                                    color: '#f1f3f4',
-                                    background: '#f1f3f4',
-                                    backgroundColor: '#f1f3f4',
                                 }}
                                 hidden={!showSpectrogram}
                             ></div>
